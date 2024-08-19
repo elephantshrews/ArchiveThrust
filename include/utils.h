@@ -1,6 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
-
+#include <math.h>
 #define Window_size 5
 #define sigThresh 3
 
