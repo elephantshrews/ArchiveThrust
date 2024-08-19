@@ -30,7 +30,7 @@ build/%.o: src/%.c
 
 # Clean up
 clean:
-	rm -f src/*.o $(exec)
+	rm -f build/*.o $(exec)
 	
 
 .PHONY: all clean
