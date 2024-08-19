@@ -1,3 +1,8 @@
+// Internal dependencies
+#include "main.h"
+#include "velocities.h"
+#include "utils.h"
+#include "tle_download_and_parse.h"
 /*
  * Author: Michiel Snoeken & Freddy Spaulding
  * Purpose: Import TLEs from various sources
@@ -12,22 +17,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-// Internal dependencies
-#include "main.h"
+
 
 // Credentials for Space-Track
 #define USERNAME "m.snoeken@campus.tu-berlin.de"
 #define PASSWORD "UfQx95rK5Bj4haRhiKBP"
-
-// Function prototypes
-int     count_lines(char *str);
-int     tle_parse(temp_storage *temp_stor, tle_storage* tle_stor);
-size_t  write_callback(void *contents, size_t size, size_t nmemb, void *userp);
-int     tle_download(const char *usrname, const char *password, temp_storage* temp_stor);
-void    parseTLELine2(const char *line, TLE_Line2 *tle2);
-void    parseTLELine1(const char *line, TLE_Line1 *tle1); 
-void    tle_print(TLE *tle);
-
 
 
 /*
@@ -35,7 +29,7 @@ void    tle_print(TLE *tle);
  * and stores them in an ordered way in the heap. It does so by calling the other fu
  * functions that are defined in this file.
 */
-
+/*
 void tle_download_and_parse(tle_storage tle_stor){
 	// Temporarily store the data in the stack
 	temp_storage temp_stor;
@@ -64,6 +58,8 @@ void tle_download_and_parse(tle_storage tle_stor){
 	tle_stor.tles = NULL;
 
 }
+*/
+
 // Keep in mind that this function gets called more than once
 size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp){
     // Compute size of URL.
@@ -196,17 +192,19 @@ void parseTLELine1(const char *line, TLE_Line1 *tle1) {
 }
 
 void parseTLELine2(const char *line, TLE_Line2 *tle2) {
-    sscanf(line, "%1d%5d%9f%9f%7f%9f%9f%9f%5d%1d",
+    int eccentricityRaw;
+    sscanf(line, "%1d%5d%9f%9f%7d%9f%9f%9f%5d%1d",
            &tle2->lineNumber,
            &tle2->satelliteNumber,
            &tle2->inclination,
            &tle2->raan,
-           &tle2->eccentricity,
+           &eccentricityRaw,
            &tle2->argPerigee,
            &tle2->meanAnomaly,
            &tle2->meanMotion,
            &tle2->revNumber,
            &tle2->checksum);
+    tle2->eccentricity = (float)eccentricityRaw / 10000000.0f; 
 }
 
 void tle_print(TLE *tle){
@@ -255,13 +253,31 @@ int tle_parse(temp_storage *temp_stor, tle_storage* tle_stor){
 }
 
 
+tle_storage tle_download_and_parse(){
+	// Temporarily store the data in the stack
+	temp_storage temp_stor;
+	temp_stor.str = malloc(1); 
+	temp_stor.size = 0;
 
 
-// Function 
-int count_lines(char *str){
-	int lines = 0;
-	for (int i = 0; str[i]; i++){
-		if (str[i] == '\n') lines++;
-	}
-	return lines;
+	// This function stores a string with the
+	// tles in the stack.
+	tle_download(USERNAME, PASSWORD, &temp_stor);
+
+		
+	size_t nmemb = count_lines(temp_stor.str) / 2;
+	// Now we want to permamently save the parsed 
+	// TLES in the heap
+
+	// Declare tle_storage
+	tle_storage tle_stor;
+
+	// Initialize the storage to contain nmemb TLEs.
+	tle_stor.nmemb = nmemb;
+	tle_stor.tles = (TLE *) malloc(nmemb * sizeof(TLE));
+	tle_parse(&temp_stor, &tle_stor); 
+    free(temp_stor.str);
+    temp_stor.str = NULL;    
+	printf("Number of TLEs: %ld \n", nmemb);
+	return tle_stor;
 }
