@@ -13,7 +13,7 @@ srcs	:= src/main.c src/tle_download_and_parse.c
 objs	:= $(srcs:src/%.c=build/%.o)
 
 # Executable file
-exec	:= myprogram
+exec	:= Archive-Thrust
 
 # Default target
 all: $(exec)
