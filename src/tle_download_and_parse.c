@@ -214,8 +214,11 @@ tle_storage tle_download_and_parse(){
 
 	// This function stores a string with the
 	// tles in the stack.
-	tle_download(USERNAME, PASSWORD, &temp_stor);
+	printf("Starting tle download and parsing ...\n");
 
+	tle_download(USERNAME, PASSWORD, &temp_stor);
+	
+	printf("Finished tle download and parsing \n");
 		
 	size_t nmemb = count_lines(temp_stor.str) / 2;
 	// Now we want to permamently save the parsed 

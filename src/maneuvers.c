@@ -88,8 +88,10 @@ double computeVectorMagnitude(double x, double y, double z) {
 
 double (*listOfVelocities(const tle_storage tle_st))[3] {
     int nmemb = tle_st.nmemb;
-    printf("Number of tles: %d\n", nmemb);
+    printf("Initializing calculation of velocities... \n");
+    
     // Dynamically allocate memory for the velocities
+    printf("Allocating memory for velocities...\n");
     double (*velocities)[3] = (double (*)[3])malloc(nmemb * sizeof(*velocities));
     printf("Finished allocating memory\n");
     if (velocities == NULL) {
@@ -109,12 +111,13 @@ double (*listOfVelocities(const tle_storage tle_st))[3] {
 }
 
 void detectManeuvers(double velocities[][3], int dataSize,int window_size, double Sigthresh) {
-    printf("initializing detection\n");
+    printf("Starting maneuver detection...\n");
+    printf("initializing detection...\n");
     double deltaV[dataSize - 1][3];  // Array to store delta V vectors
     double deltaVMagnitudes[dataSize - 1];  // Array to store magnitudes of delta V vectors
 
     // Compute delta V vectors and their magnitudes
-    printf("computing Delta Vs\n");
+    printf("computing Delta Vs...\n");
     for (int i = 0; i < dataSize - 1; i++) {
         printf("count: %d\n", i);
         computeDeltaV(velocities[i][0], velocities[i][1], velocities[i][2],
@@ -139,6 +142,7 @@ void detectManeuvers(double velocities[][3], int dataSize,int window_size, doubl
         // Check if the current delta V magnitude exceeds the threshold relative to the median
         double deviation = fabs(deltaVMagnitudes[i] - median);
         //printf("This is the deviation: %f\n", deviation);
+        printf("Finished Maneuver detection\n");
         if (deviation > Sigthresh) {
             printf("Potential maneuver detected at index %d (Epoch: %d)\n", i + 1, i + 1);
             printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
