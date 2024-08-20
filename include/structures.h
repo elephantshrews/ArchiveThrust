@@ -1,11 +1,12 @@
-#ifndef VELOCITIES_H
-#define VELOCITIES_H
-
-#include <stddef.h> // For size_t
-#include "velocities.h" // Assuming TLE_Line2 and tle_storage are defined here
-
-// Constants
-#define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
+#ifndef  STRUCTURES_H
+#include "gsl/gsl_matrix.h"
+#include <stdio.h>
+#include <stdlib.h>
+//#include <string.h>
+//#include <curl/curl.h>
+//#include <sys/stat.h>
+//#include <sys/types.h>
+//#include <math.h>
 
 typedef struct {
     int     lineNumber;
@@ -54,12 +55,4 @@ typedef struct {
 } tle_storage;
 
 
-
-// Function prototypes
-void computeVelocityFromTLE(const TLE_Line2 *tle2, double *v_x, double *v_y, double *v_z);
-void computeDeltaV(double vx1, double vy1, double vz1, double vx2, double vy2, double vz2, double *delvx, double *delvy, double *delvz);
-double computeVectorMagnitude(double x, double y, double z);
-double (*listOfVelocities(const tle_storage tle_st))[3];
-
-#endif // VELOCITIES_H
-
+#endif // STRUCTURES_H

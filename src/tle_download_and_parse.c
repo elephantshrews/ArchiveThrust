@@ -1,66 +1,18 @@
-// Internal dependencies
-#include "main.h"
-#include "velocities.h"
-#include "utils.h"
 #include "tle_download_and_parse.h"
-/*
- * Author: Michiel Snoeken & Freddy Spaulding
- * Purpose: Import TLEs from various sources
- * Copyright 2024
-*/
-
-// External dependencies
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <curl/curl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-
-
-
 // Credentials for Space-Track
 #define USERNAME "m.snoeken@campus.tu-berlin.de"
 #define PASSWORD "UfQx95rK5Bj4haRhiKBP"
 
 
-/*
- * This function is the central entity of this file. Upon call, it downloads TLES
- * and stores them in an ordered way in the heap. It does so by calling the other fu
- * functions that are defined in this file.
-*/
-/*
-void tle_download_and_parse(tle_storage tle_stor){
-	// Temporarily store the data in the stack
-	temp_storage temp_stor;
-	temp_stor.str = malloc(1); 
-	temp_stor.size = 0;
-
-
-	// This function stores a string with the
-	// tles in the stack.
-	tle_download(USERNAME, PASSWORD, &temp_stor);
-
-	size_t nmemb = count_lines(temp_stor.str) / 2;
-	printf("Number of TLEs: %ld \n", nmemb);
-	// Now we want to permamently save the parsed 
-	// TLES in the heap
-
-	// Initialize the storage to contain nmemb TLEs.
-	tle_stor.nmemb = nmemb;
-	tle_stor.tles = (TLE *) malloc(nmemb * sizeof(TLE));
-	tle_parse(&temp_stor, &tle_stor); 
-    free(temp_stor.str);
-    temp_stor.str = NULL;
-
-
-	free(tle_stor.tles);
-	tle_stor.tles = NULL;
-
-}
-*/
-
 // Keep in mind that this function gets called more than once
+int count_lines(char *str){
+	int lines = 0;
+	for (int i = 0; str[i]; i++){
+		if (str[i] == '\n') lines++;
+	}
+	return lines;
+}
+
 size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp){
     // Compute size of URL.
     size_t realsize = size * nmemb;

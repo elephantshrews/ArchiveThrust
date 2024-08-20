@@ -7,7 +7,7 @@ LIBS    := -lcurl -lm
 
 
 # Source files
-srcs	:= src/main.c src/tle_download_and_parse.c src/velocities.c src/maneuvers.c src/utils.c
+srcs	:= src/main.c src/tle_download_and_parse.c src/maneuvers.c
 
 # Object files
 objs	:= $(srcs:src/%.c=build/%.o)
