@@ -4,4 +4,34 @@ ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a 
 
 # Installation
 
-To install the application, clone the repository to your local machine with
+To install the application, first install the external libraries with the code below.
+
+'''
+sudo dnf install libcurl-dev
+'''
+
+Second, clone the repository
+
+'''
+git clone https://github.com/elephantshrews/ArchiveThrust.git
+'''
+
+The third step is to go to the folder, build the project, and install it.
+
+'''
+cd ArchiveThrust
+make
+sudo make install
+make clean
+'''
+
+
+
+# Uninstalling
+
+'''
+cd /path/to/ArchiveThrust
+sudo make uninstall
+cd ..
+rm -r ArchiveThrust
+'''
