@@ -31,7 +31,7 @@ int main() {
 
     // Free the dynamically allocated memory after use
     free(velocities);
-
+    free(tle_stor.tles);
     return 0;
 }
 
