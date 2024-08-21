@@ -5,6 +5,10 @@ CC		:= gcc
 CFLAGS  := -Iinclude -Wall -Wextra 
 LIBS    := -lcurl -lm
 
+# Folders for installing
+prefix	:= /usr/local
+bindir  := $(prefix)/bin
+
 
 # Source files
 srcs	:= src/main.c src/tle_download_and_parse.c src/maneuvers.c
@@ -13,7 +17,7 @@ srcs	:= src/main.c src/tle_download_and_parse.c src/maneuvers.c
 objs	:= $(srcs:src/%.c=build/%.o)
 
 # Executable file
-exec	:= Archive-Thrust
+exec	:= ArchiveThrust
 
 # Default target
 all: $(exec)
@@ -26,7 +30,14 @@ $(exec): $(objs)
 build/%.o: src/%.c
 	@mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
-	
+
+# Install software
+install: $(exec)
+	install -Dm755 $(exec) 		$(bindir)/$(exec)
+
+# Uninstall software
+uninstall:
+	rm -f $(bindir)/$(exec)
 
 # Clean up
 clean:
