@@ -1,0 +1,749 @@
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14646 - SECONDE :  1400
+ FIN   DE CRENEAU   : JOUR : 14646 - SECONDE :  7490
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14646 - SECONDE :  3939.200
+               - DELTA DE VITESSE                     :  .38800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14646 - SECONDE :  6979.300
+               - DELTA DE VITESSE                     :  .38800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14677 - SECONDE :  1630
+ FIN   DE CRENEAU   : JOUR : 14677 - SECONDE :  7720
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14677 - SECONDE :  4170.800
+               - DELTA DE VITESSE                     :  .35700E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14677 - SECONDE :  7210.900
+               - DELTA DE VITESSE                     :  .35700E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14703 - SECONDE :  1630
+ FIN   DE CRENEAU   : JOUR : 14703 - SECONDE :  7720
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14703 - SECONDE :  4164.090
+               - DELTA DE VITESSE                     :  .49900E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14703 - SECONDE :  7204.100
+               - DELTA DE VITESSE                     :  .49900E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14717 - SECONDE : 41000
+ FIN   DE CRENEAU   : JOUR : 14717 - SECONDE : 77500
+ TYPE DE MANOEUVRE  : ni mcc ni mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14717 - SECONDE : 41000.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ POUSSEE NUMERO 2 : JOUR : 14717 - SECONDE : 77500.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14718 - SECONDE : 71824
+ FIN   DE CRENEAU   : JOUR : 14718 - SECONDE : 72771
+ TYPE DE MANOEUVRE  : mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14718 - SECONDE : 72224.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ POUSSEE NUMERO 2 : JOUR : 14718 - SECONDE : 72481.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14722 - SECONDE : 82900
+ FIN   DE CRENEAU   : JOUR : 14723 - SECONDE :  2560
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14722 - SECONDE : 85410.400
+               - DELTA DE VITESSE                     :  .64900E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14723 - SECONDE :  2050.400
+               - DELTA DE VITESSE                     :  .64900E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14731 - SECONDE : 84500
+ FIN   DE CRENEAU   : JOUR : 14732 - SECONDE :  4210
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14732 - SECONDE :   656.700
+               - DELTA DE VITESSE                     :  .14700E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14732 - SECONDE :  3696.800
+               - DELTA DE VITESSE                     :  .14700E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14759 - SECONDE :  7200
+ FIN   DE CRENEAU   : JOUR : 14759 - SECONDE : 50400
+ TYPE DE MANOEUVRE  : ni mcc ni mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14759 - SECONDE :  7200.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ POUSSEE NUMERO 2 : JOUR : 14759 - SECONDE : 50400.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14766 - SECONDE : 86200
+ FIN   DE CRENEAU   : JOUR : 14767 - SECONDE :  5860
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14767 - SECONDE :  2306.900
+               - DELTA DE VITESSE                     :  .31000E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14767 - SECONDE :  5346.800
+               - DELTA DE VITESSE                     :  .31000E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14787 - SECONDE : 85900
+ FIN   DE CRENEAU   : JOUR : 14788 - SECONDE :  5630
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14788 - SECONDE :  2083.200
+               - DELTA DE VITESSE                     :  .18500E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14788 - SECONDE :  5123.200
+               - DELTA DE VITESSE                     :  .18500E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14813 - SECONDE :   732
+ FIN   DE CRENEAU   : JOUR : 14813 - SECONDE :  6820
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14813 - SECONDE :  3269.000
+               - DELTA DE VITESSE                     :  .91000E-02 M/S
+ POUSSEE NUMERO 2 : JOUR : 14813 - SECONDE :  6309.100
+               - DELTA DE VITESSE                     :  .91000E-02 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14844 - SECONDE :   969
+ FIN   DE CRENEAU   : JOUR : 14844 - SECONDE :  7060
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14844 - SECONDE :  3506.400
+               - DELTA DE VITESSE                     :  .22200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14844 - SECONDE :  6546.400
+               - DELTA DE VITESSE                     :  .22200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14865 - SECONDE :   735
+ FIN   DE CRENEAU   : JOUR : 14865 - SECONDE :  6820
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14865 - SECONDE :  3272.800
+               - DELTA DE VITESSE                     :  .25300E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14865 - SECONDE :  6312.800
+               - DELTA DE VITESSE                     :  .25300E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14886 - SECONDE :   505
+ FIN   DE CRENEAU   : JOUR : 14886 - SECONDE :  6590
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14886 - SECONDE :  3042.600
+               - DELTA DE VITESSE                     :  .24000E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14886 - SECONDE :  6082.600
+               - DELTA DE VITESSE                     :  .24000E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14912 - SECONDE : 85700
+ FIN   DE CRENEAU   : JOUR : 14913 - SECONDE :  5420
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14913 - SECONDE :  1871.400
+               - DELTA DE VITESSE                     :  .35900E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14913 - SECONDE :  4911.400
+               - DELTA DE VITESSE                     :  .35900E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14955 - SECONDE : 84100
+ FIN   DE CRENEAU   : JOUR : 14956 - SECONDE :  3780
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14956 - SECONDE :   230.300
+               - DELTA DE VITESSE                     :  .35300E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14956 - SECONDE :  3270.400
+               - DELTA DE VITESSE                     :  .35300E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 14997 - SECONDE : 83600
+ FIN   DE CRENEAU   : JOUR : 14998 - SECONDE :  3310
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 14997 - SECONDE : 86155.100
+               - DELTA DE VITESSE                     :  .27000E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 14998 - SECONDE :  2795.100
+               - DELTA DE VITESSE                     :  .27000E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15011 - SECONDE : 85500
+ FIN   DE CRENEAU   : JOUR : 15012 - SECONDE :  5170
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15012 - SECONDE :  1622.200
+               - DELTA DE VITESSE                     :  .38400E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15012 - SECONDE :  4662.200
+               - DELTA DE VITESSE                     :  .38400E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15039 - SECONDE : 46000
+ FIN   DE CRENEAU   : JOUR : 15039 - SECONDE : 75000
+ TYPE DE MANOEUVRE  : ni mcc ni mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15039 - SECONDE : 46000.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ POUSSEE NUMERO 2 : JOUR : 15039 - SECONDE : 75000.000
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15043 - SECONDE : 84500
+ FIN   DE CRENEAU   : JOUR : 15044 - SECONDE :  4220
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15044 - SECONDE :   673.300
+               - DELTA DE VITESSE                     :  .51200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15044 - SECONDE :  3713.300
+               - DELTA DE VITESSE                     :  .51200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15060 - SECONDE : 82900
+ FIN   DE CRENEAU   : JOUR : 15061 - SECONDE :  2570
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15060 - SECONDE : 85422.600
+               - DELTA DE VITESSE                     :  .54500E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15061 - SECONDE :  2062.700
+               - DELTA DE VITESSE                     :  .54500E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15086 - SECONDE : 72900
+ FIN   DE CRENEAU   : JOUR : 15086 - SECONDE : 73800
+ TYPE DE MANOEUVRE  : mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  1
+ POUSSEE NUMERO 1 : JOUR : 15086 - SECONDE : 74000.000
+               - DELTA DE VITESSE                     :  .55100E+01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15089 - SECONDE : 85400
+ FIN   DE CRENEAU   : JOUR : 15090 - SECONDE :  5130
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15090 - SECONDE :  1581.700
+               - DELTA DE VITESSE                     :  .43200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15090 - SECONDE :  4622.000
+               - DELTA DE VITESSE                     :  .43200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15142 - SECONDE : 84300
+ FIN   DE CRENEAU   : JOUR : 15143 - SECONDE :  4000
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15143 - SECONDE :   444.500
+               - DELTA DE VITESSE                     :  .44800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15143 - SECONDE :  3484.400
+               - DELTA DE VITESSE                     :  .44800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15185 - SECONDE : 82700
+ FIN   DE CRENEAU   : JOUR : 15186 - SECONDE :  2380
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15185 - SECONDE : 85229.100
+               - DELTA DE VITESSE                     :  .27400E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15186 - SECONDE :  1869.100
+               - DELTA DE VITESSE                     :  .27400E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15208 - SECONDE :  3440
+ FIN   DE CRENEAU   : JOUR : 15208 - SECONDE :  6680
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15208 - SECONDE :  3521.300
+               - DELTA DE VITESSE                     :  .19800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15208 - SECONDE :  6561.500
+               - DELTA DE VITESSE                     :  .19800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15226 - SECONDE : 85900
+ FIN   DE CRENEAU   : JOUR : 15227 - SECONDE :  2700
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15226 - SECONDE : 85943.600
+               - DELTA DE VITESSE                     :  .29200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15227 - SECONDE :  2538.800
+               - DELTA DE VITESSE                     :  .29200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15304 - SECONDE :   652
+ FIN   DE CRENEAU   : JOUR : 15304 - SECONDE :  3890
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15304 - SECONDE :   729.800
+               - DELTA DE VITESSE                     :  .24400E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15304 - SECONDE :  3769.800
+               - DELTA DE VITESSE                     :  .24400E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15335 - SECONDE :   889
+ FIN   DE CRENEAU   : JOUR : 15335 - SECONDE :  4120
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15335 - SECONDE :   966.400
+               - DELTA DE VITESSE                     :  .29100E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15335 - SECONDE :  4006.600
+               - DELTA DE VITESSE                     :  .29100E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15361 - SECONDE :   884
+ FIN   DE CRENEAU   : JOUR : 15361 - SECONDE :  4120
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15361 - SECONDE :   961.300
+               - DELTA DE VITESSE                     :  .34300E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15361 - SECONDE :  4001.500
+               - DELTA DE VITESSE                     :  .34300E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15382 - SECONDE : 85900
+ FIN   DE CRENEAU   : JOUR : 15383 - SECONDE :  2710
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15382 - SECONDE : 85953.800
+               - DELTA DE VITESSE                     :  .38800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15383 - SECONDE :  2593.800
+               - DELTA DE VITESSE                     :  .38800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15402 - SECONDE :  1580
+ FIN   DE CRENEAU   : JOUR : 15402 - SECONDE :  4810
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15402 - SECONDE :  1653.300
+               - DELTA DE VITESSE                     :  .46300E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15402 - SECONDE :  4693.200
+               - DELTA DE VITESSE                     :  .46300E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15433 - SECONDE :  1800
+ FIN   DE CRENEAU   : JOUR : 15433 - SECONDE :  5040
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15433 - SECONDE :  1880.900
+               - DELTA DE VITESSE                     :  .30200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15433 - SECONDE :  4920.800
+               - DELTA DE VITESSE                     :  .30200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15439 - SECONDE : 48600
+ FIN   DE CRENEAU   : JOUR : 15439 - SECONDE : 86400
+ TYPE DE MANOEUVRE  : mco
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  1
+ POUSSEE NUMERO 1 : JOUR : 15439 - SECONDE : 48600.900
+               - DELTA DE VITESSE                     : 0.00000E+00 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15442 - SECONDE :  3440
+ FIN   DE CRENEAU   : JOUR : 15442 - SECONDE :  6670
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15442 - SECONDE :  3514.600
+               - DELTA DE VITESSE                     :  .69300E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15442 - SECONDE :  6554.500
+               - DELTA DE VITESSE                     :  .69300E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15465 - SECONDE :   880
+ FIN   DE CRENEAU   : JOUR : 15465 - SECONDE :  4110
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15465 - SECONDE :   956.800
+               - DELTA DE VITESSE                     :  .19800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15465 - SECONDE :  3997.000
+               - DELTA DE VITESSE                     :  .19800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15474 - SECONDE :  2530
+ FIN   DE CRENEAU   : JOUR : 15474 - SECONDE :  5760
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15474 - SECONDE :  2607.500
+               - DELTA DE VITESSE                     : -.54000E-02 M/S
+ POUSSEE NUMERO 2 : JOUR : 15474 - SECONDE :  5647.800
+               - DELTA DE VITESSE                     : -.54000E-02 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15516 - SECONDE :  2080
+ FIN   DE CRENEAU   : JOUR : 15516 - SECONDE :  5310
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15516 - SECONDE :  2152.500
+               - DELTA DE VITESSE                     :  .15400E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15516 - SECONDE :  5192.500
+               - DELTA DE VITESSE                     :  .15400E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15585 - SECONDE : 85697
+ FIN   DE CRENEAU   : JOUR : 15586 - SECONDE :  2531
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15585 - SECONDE : 85773.700
+               - DELTA DE VITESSE                     :  .10200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15586 - SECONDE :  2413.900
+               - DELTA DE VITESSE                     :  .10200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15621 - SECONDE : 86176
+ FIN   DE CRENEAU   : JOUR : 15622 - SECONDE :  3010
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15621 - SECONDE : 86252.800
+               - DELTA DE VITESSE                     :  .11800E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15622 - SECONDE :  2893.000
+               - DELTA DE VITESSE                     :  .11800E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15663 - SECONDE : 85714
+ FIN   DE CRENEAU   : JOUR : 15664 - SECONDE :  2548
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15663 - SECONDE : 85791.900
+               - DELTA DE VITESSE                     :  .17200E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15664 - SECONDE :  2431.800
+               - DELTA DE VITESSE                     :  .17200E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2
+ DEBUT DE CRENEAU   : JOUR : 15697 - SECONDE :  3298
+ FIN   DE CRENEAU   : JOUR : 15697 - SECONDE :  6532
+ TYPE DE MANOEUVRE  : mcc
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+
+
+
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15697 - SECONDE :  3375.200
+               - DELTA DE VITESSE                     :  .16100E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15697 - SECONDE :  6415.300
+               - DELTA DE VITESSE                     :  .16100E-01 M/S
+ ***************************************************************************
+ SATELLITE          : SPOT2 
+ DEBUT DE CRENEAU   : JOUR : 15761 - SECONDE :  1419
+ FIN   DE CRENEAU   : JOUR : 15761 - SECONDE :  4653
+ TYPE DE MANOEUVRE  : mcc          
+ TYPE DE PARAMETRES :   4
+               (NORME DU DELTA DE VITESSE)
+ 
+ 
+ 
+ NOMBRE DE POUSSE(S) :  2
+ POUSSEE NUMERO 1 : JOUR : 15761 - SECONDE :  1496.100
+               - DELTA DE VITESSE                     :  .14900E-01 M/S
+ POUSSEE NUMERO 2 : JOUR : 15761 - SECONDE :  4536.100
+               - DELTA DE VITESSE                     :  .14900E-01 M/S
+ ***************************************************************************
+
+==========================================
+   Manoeuvres pour le satellite: SPOT2
+==========================================
+  Jour    Sec      JJ/MM/AN   hh:mn:ss.sss
+------------------------------------------
+ 15585 85773.700    2/ 9/92   23:49:33.700
+ 15586  2531.000    3/ 9/92    0:42:11.000
+ 
+ 15621 86252.800    8/10/92   23:57:32.800
+ 15622  3010.000    9/10/92    0:50:10.000
+ 
+ 15663 85792.000   19/11/92   23:49:52.000
+ 15664  2549.000   20/11/92    0:42:29.000
+ 
+ 15697  3375.100   23/12/92    0:56:15.100
+ 15697  6532.000   23/12/92    1:48:52.000
+ 
+ 15761  1496.100   25/ 2/93    0:24:56.100
+ 15761  4653.000   25/ 2/93    1:17:33.000
+ 
+ 15803  1013.700    8/ 4/93    0:16:53.700
+ 15803  4170.000    8/ 4/93    1: 9:30.000
+ 
+ 15878  4496.100   22/ 6/93    1:14:56.100
+ 15878  7653.000   22/ 6/93    2: 7:33.000
+ 
+ 15927  1894.100   10/ 8/93    0:31:34.100
+ 15927  5051.000   10/ 8/93    1:24:11.000
+ 
+ 16011 86126.500    2/11/93   23:55:26.500
+ 16012  2883.000    3/11/93    0:48: 3.000
+ 
+ 16048 46018.000    9/12/93   12:46:58.000
+ 16048 46723.000    9/12/93   12:58:43.000
+ 
+ 16053   411.800   14/12/93    0: 6:51.800
+ 16053  3568.000   14/12/93    0:59:28.000
+ 
+ 16061  3226.100   22/12/93    0:53:46.100
+ 16061  6383.000   22/12/93    1:46:23.000
+ 
+ 16082  2984.900   12/ 1/94    0:49:44.900
+ 16082  6142.000   12/ 1/94    1:42:22.000
+ 
+ 16131 85651.700    2/ 3/94   23:47:31.700
+ 16132  2409.000    3/ 3/94    0:40: 9.000
+ 
+ 16195  4638.800    5/ 5/94    1:17:18.800
+ 16195  7795.000    5/ 5/94    2: 9:55.000
+ 
+ 16250  1121.100   29/ 6/94    0:18:41.100
+ 16250  4278.000   29/ 6/94    1:11:18.000
+ 
+ 16391   380.100   17/11/94    0: 6:20.100
+ 16391  3717.000   17/11/94    1: 1:57.000
+ 
+ 16474 46395.000    8/ 2/95   12:53:15.000
+ 16474 47090.000    8/ 2/95   13: 4:50.000
+ 
+ 16476  4311.300   10/ 2/95    1:11:51.300
+ 16476  7648.000   10/ 2/95    2: 7:28.000
+ 
+ 16495 85572.000    1/ 3/95   23:46:12.000
+ 16496  2509.000    2/ 3/95    0:41:49.000
+ 
+ 16588  1091.400    2/ 6/95    0:18:11.400
+ 16588  4428.000    2/ 6/95    1:13:48.000
+ 
+ 16671  1355.100   24/ 8/95    0:22:35.100
+ 16671  4692.000   24/ 8/95    1:18:12.000
+ 
+ 16762  4409.700   23/11/95    1:13:29.700
+ 16762  7747.000   23/11/95    2: 9: 7.000
+ 
+ 16921   850.200   30/ 4/96    0:14:10.200
+ 16921  4187.000   30/ 4/96    1: 9:47.000
+ 
+ 17049  3108.800    5/ 9/96    0:51:48.800
+ 17049  6445.000    5/ 9/96    1:47:25.000
+ 
+ 17065  2626.900   21/ 9/96    0:43:46.900
+ 17065  5963.000   21/ 9/96    1:39:23.000
+ 
+ 17113  1265.800    8/11/96    0:21: 5.800
+ 17113  4603.000    8/11/96    1:16:43.000
+ 
+ 17285 86114.000   29/ 4/97   23:55:14.000
+ 17286  3051.000   30/ 4/97    0:50:51.000
+ 
+ 17350  2433.628    3/ 7/97    0:40:33.628
+ 17350  5483.000    3/ 7/97    1:31:23.000
+ 
+ 17370 72067.000   23/ 7/97   20: 1: 7.000
+ 17370 75120.000   23/ 7/97   20:52: 0.000
+ 
+ 17371 70251.000   24/ 7/97   19:30:51.000
+ 17371 73300.000   24/ 7/97   20:21:40.000
+ 
+ 17382 50428.023    4/ 8/97   14: 0:28.023
+ 17382 53476.000    4/ 8/97   14:51:16.000
+ 
+ 17470  1962.368   31/10/97    0:32:42.368
+ 17470  5012.000   31/10/97    1:23:32.000
+ 
+ 17521  3119.392   21/12/97    0:51:59.392
+ 17521  6169.000   21/12/97    1:42:49.000
+ 

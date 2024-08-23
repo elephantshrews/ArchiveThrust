@@ -1,0 +1,14 @@
+
+Maneuver files format
+
+---------------------------------------------------
+sat       yb   db hb sb  ye   de  he se 
+---------------------------------------------------
+spot3 1993 288  0 17 1993 288  1 11
+
+with:
+sat for satellite
+yb/ye for the year at the beginning/end of the maneuver
+db/de for the day at the beginning/end of the maneuver
+hb/he for the hour at the beginning/end of the maneuver 
+sb/se for the second at the beginning/end of the maneuver
