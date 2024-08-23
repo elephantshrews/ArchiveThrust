@@ -66,12 +66,13 @@ void computeVelocityFromTLE(const TLE_Line2 *tle2, double *v_x, double *v_y, dou
     double v_t = sqrt(MU / p) * (1 + ecc * cos(true_anomaly));  // Tangential velocity component
 
     // Position in the orbital plane
-    /*
-    double r_x = r * cos(true_anomaly);
-    double r_y = r * sin(true_anomaly);
-    */
+    
+    //double r_x = r * cos(true_anomaly);
+    //double r_y = r * sin(true_anomaly);
+    
     // Step 5: Convert to ECI coordinates using orbital parameters
     // Simplified rotation (for demonstration purposes; need full rotation matrix in actual implementation)
+
     *v_x = v_r * cos(raan) - v_t * sin(raan) * cos(inc);
     *v_y = v_r * sin(raan) + v_t * cos(raan) * cos(inc);
     *v_z = v_t * sin(inc);
@@ -88,45 +89,47 @@ double computeVectorMagnitude(double x, double y, double z) {
     return mag;
 }
 
-
-
-        //FOR VALIDATION AND COMPARISON WITH MANEUVER LIST
-
-//Realizing that I can incorporate this step into the compute velocity from TLE function
-/*
-double (*listOfVelocities(const tle_storage tle_st))[3] {
-    int nmemb = tle_st.nmemb;
-    printf("Initializing calculation of velocities... \n");
+void computeVelocityMagnitudeFromTLE(const TLE_Line2 *tle2, double *velocity_magnitude) {
+    // Step 1: Convert mean motion to semi-major axis (mean motion is in revs per day)
+    double mean_anomaly = tle2->meanAnomaly;
+    double ecc = tle2->eccentricity;
+    double mean_motion = tle2->meanMotion;
     
-    // Dynamically allocate memory for the velocities
-    printf("Allocating memory for velocities...\n");
-    double (*velocities)[3] = (double (*)[3])malloc(nmemb * sizeof(*velocities));
-    printf("Finished allocating memory\n");
-    if (velocities == NULL) {
-        printf("Memory allocation failed!\n");
-        exit(1);  // Exit if allocation fails
-    }
-    printf("Memory allocation successfull\n");
-    int count = 0;
-    printf("Starting computation of velocities...\n");
-    while (count < nmemb) {
-        computeVelocityFromTLE(&tle_st.tles[count].line2, &velocities[count][0], &velocities[count][1], &velocities[count][2]);
-        count++;
-    }
-    printf("Finished calculation of velocities\n");
+    // Convert mean motion to radians per second
+    double n = mean_motion * 2 * 3.14159 / 86400.0; // rad/s
+    // Compute the semi-major axis in km
+    double a = pow(MU / (n * n), 1.0 / 3.0);  // Semi-major axis in km
 
-    return velocities;
+    // Step 2: Solve Kepler's equation to get the eccentric anomaly E
+    double E = mean_anomaly;  // Initial guess (could iterate for better accuracy)
+    double delta = 1e-6;
+
+    // Iterative method (Newton's method) to compute eccentricity anomaly for step 2
+    while (fabs(mean_anomaly - (E - ecc * sin(E))) > delta) {
+        E = E - (E - ecc * sin(E) - mean_anomaly) / (1 - ecc * cos(E));
+    }
+    
+    // Step 3: Compute the true anomaly (angle between periapsis direction and satellite's position)
+    //double true_anomaly = 2 * atan2(sqrt(1 + ecc) * sin(E / 2), sqrt(1 - ecc) * cos(E / 2));
+    
+    // Step 4: Compute the radial distance r from the center of the Earth to the satellite
+    double r = a * (1 - ecc * cos(E));  // Distance in km
+    
+    // Step 5: Compute the velocity magnitude directly using the orbital parameters
+    *velocity_magnitude = sqrt(MU * (2 / r - 1 / a));  // Velocity magnitude in km/s
 }
-*/
 
-void detectManeuvers(const tle_storage tle_st, int dataSize,int window_size, double Sigthresh) {
+
+void detectManeuvers(const tle_storage tle_st, int window_size, double Sigthresh) {
     printf("Starting maneuver detection...\n");
     printf("initializing detection...\n");
-    double deltaV[dataSize - 1][3];  // Array to store delta V vectors
-    double deltaVMagnitudes[dataSize - 1];  // Array to store magnitudes of delta V vectors
-
-    printf("Initializing calculation of velocities... \n");
     int nmemb = tle_st.nmemb;
+    double deltaV[nmemb- 1][3];  // Array to store delta V vectors
+    double deltaVMagnitudes[nmemb - 1];  // Array to store magnitudes of delta V vectors
+    double velocity_magnitude[nmemb];
+    printf("Initializing calculation of velocities... \n");
+    
+    
     // Dynamically allocate memory for the velocities
 
     printf("Allocating memory for velocities...\n");
@@ -142,13 +145,15 @@ void detectManeuvers(const tle_storage tle_st, int dataSize,int window_size, dou
     printf("Starting computation of velocities...\n");
     while (count < nmemb) {
         computeVelocityFromTLE(&tle_st.tles[count].line2, &velocities[count][0], &velocities[count][1], &velocities[count][2]);
+        computeVelocityMagnitudeFromTLE(&tle_st.tles[count].line2, &velocity_magnitude[count]);
+        //printf("Difference between calcs of velocity mags: %f\n", computeVectorMagnitude(velocities[count][0],velocities[count][1],velocities[count][2])-velocity_magnitude[count]); 
+        //printf("Computed via vector: %f, and computed via orbital elements: %f", computeVectorMagnitude(velocities[count][0],velocities[count][1],velocities[count][2]), velocity_magnitude[count]);
         count++;
     }
 
     // Compute delta V vectors and their magnitudes
     printf("computing Delta Vs...\n");
-    for (int i = 0; i < dataSize - 1; i++) {
-        printf("count: %d\n", i);
+    for (int i = 0; i < nmemb - 1; i++) {
         computeDeltaV(velocities[i][0], velocities[i][1], velocities[i][2],
                       velocities[i + 1][0], velocities[i + 1][1], velocities[i + 1][2],
                       &deltaV[i][0], &deltaV[i][1], &deltaV[i][2]);
@@ -157,7 +162,7 @@ void detectManeuvers(const tle_storage tle_st, int dataSize,int window_size, dou
         
         
     }
-    for (int i = window_size; i < dataSize - 1; i++) {
+    for (int i = window_size; i < nmemb - 1; i++) {
         // Create a window of delta V magnitudes
         double window[window_size];
         for (int j = 0; j < window_size; j++) {
@@ -172,7 +177,7 @@ void detectManeuvers(const tle_storage tle_st, int dataSize,int window_size, dou
 
         if (deviation > Sigthresh) {
             printf("Potential maneuver detected at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
-            printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
+            //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
         }
     }
     printf("End of maneuver detection\n");

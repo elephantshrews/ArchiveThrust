@@ -7,8 +7,6 @@
 #include <string.h>
 
 #include "main.h"
-#define Window_size 5
-#define sigThresh 3
 // Constants
 #define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
 
@@ -23,7 +21,7 @@ double (*listOfVelocities(const tle_storage tle_st))[3];
 
 
 
-void detectManeuvers(const tle_storage tle_st, int dataSize, int window_size, double Sigthresh);
+void detectManeuvers(const tle_storage tle_st, int window_size, double Sigthresh);
 
 
 //FOR VALIDATION
