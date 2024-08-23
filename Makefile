@@ -11,7 +11,7 @@ bindir  := $(prefix)/bin
 
 
 # Source files
-srcs	:= src/main.c src/tle_download_and_parse.c src/maneuvers.c
+srcs	:= src/main.c src/tle_download_and_parse.c src/detect_maneuvers.c
 
 # Object files
 objs	:= $(srcs:src/%.c=build/%.o)
