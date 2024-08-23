@@ -54,7 +54,7 @@ typedef struct {
 
 
 double (*listOfVelocities(const tle_storage tle_st))[3];
-void detectManeuvers(double velocities[][3], int dataSize, int window_size, double Sigthresh);
+void detectManeuvers(const tle_storage tle_st, int dataSize, int window_size, double Sigthresh);
 tle_storage tle_download_and_parse(void);
 
 #endif // MAIN_H
