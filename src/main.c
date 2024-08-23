@@ -25,7 +25,7 @@ int main() {
 
     //double (*velocities)[3] = (double (*)[3])listOfVelocities(tle_stor);
     
-    detectManeuvers(tle_stor, tle_stor.nmemb, windowSize, sigmaThreshold);
+    detectManeuvers(tle_stor, windowSize, sigmaThreshold);
 
     
     // Example output of the first velocity component
