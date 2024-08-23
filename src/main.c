@@ -5,7 +5,7 @@
 */
 
 #include "main.h"
-#include "maneuvers.h"
+#include "detect_maneuvers.h"
 #include "tle_download_and_parse.h"
 
 // Dependencies 
@@ -23,15 +23,16 @@ int main() {
     
     // Dynamically allocate memory for velocities
 
-    double (*velocities)[3] = (double (*)[3])listOfVelocities(tle_stor);
+    //double (*velocities)[3] = (double (*)[3])listOfVelocities(tle_stor);
     
-    detectManeuvers(velocities, tle_stor.nmemb, windowSize, sigmaThreshold);
+    detectManeuvers(tle_stor, tle_stor.nmemb, windowSize, sigmaThreshold);
+
     
     // Example output of the first velocity component
 
     // Free the dynamically allocated memory after use
-    free(velocities);
-    free(tle_stor.tles);
+    //free(&tle_stor);
+
     return 0;
 }
 

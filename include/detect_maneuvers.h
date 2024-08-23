@@ -23,6 +23,32 @@ double (*listOfVelocities(const tle_storage tle_st))[3];
 
 
 
-void detectManeuvers(double velocities[][3], int dataSize, int window_size, double Sigthresh);
+void detectManeuvers(const tle_storage tle_st, int dataSize, int window_size, double Sigthresh);
+
+
+//FOR VALIDATION
+#define MAX_LINE_LENGTH 512
+#define MAX_REST_LENGTH 473
+
+typedef struct {
+    char line1[MAX_LINE_LENGTH];
+} Maneuver_line;
+
+typedef struct {
+    char satID[6]; // Changed to 6 to accommodate null terminator
+    int yearbegin;
+    int daybegin;
+    int hourbegin;
+    int minutebegin;
+    int yearend;
+    int dayend;
+    int hourend;
+    int minuteend;
+    char rest[MAX_REST_LENGTH + 1]; // Added 1 for null terminator
+} manLine;
+
+void parsemanLine(const char *line, manLine *manlineparsed);
+manLine* parse_and_return();
+
 
 #endif // MANEUVERS_H
