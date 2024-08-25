@@ -6,8 +6,8 @@
 
 
 
-#define Window_size 4
-#define sigThresh 2
+#define WindowSize 4
+#define sigmaThreshold 7
 // You can also declare other function prototypes used in main.c here if necessary
 typedef struct {
     int     lineNumber;
