@@ -1,10 +1,9 @@
 #include "tle_download_and_parse.h"
 // Credentials for Space-Track
 
-//#define USERNAME "m.snoeken@campus.tu-berlin.de"
-//#define PASSWORD "UfQx95rK5Bj4haRhiKBP"
-#define USERNAME "sarahfspaulding@gmail.com"
-#define PASSWORD "Greatestisle15!"
+#define USERNAME "m.snoeken@campus.tu-berlin.de"
+#define PASSWORD "UfQx95rK5Bj4haRhiKBP"
+
 
 // Keep in mind that this function gets called more than once
 int count_lines(char *str){
