@@ -80,7 +80,7 @@ void detectManeuvers(const tle_storage tle_st, int windowSize, double Sigthresh)
         // Check if the current delta V magnitude exceeds the threshold relative to the median
         double deviation1 = fabs(meanMotions[i] - median1)*1.e5;
         double deviation2 = fabs(eccentricity[i] - median2)*1.e5;
-        double deviation3 = fabs(inclination[i] - median3)*1.e5;
+        double deviation3 = fabs(inclination[i] - median3)*1.e4;
         //printf("This is the deviation: %f\n", deviation);
         //printf("This is the deviation: %f\n", deviation);
 
@@ -88,6 +88,7 @@ void detectManeuvers(const tle_storage tle_st, int windowSize, double Sigthresh)
             printf("Potential maneuver detected for mean motion at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
             //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
         }
+        /*
         if (deviation2 > Sigthresh) {
             //printf("deviation %f\n", deviation2);
             printf("Potential maneuver detected for eccentricity at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
@@ -97,7 +98,7 @@ void detectManeuvers(const tle_storage tle_st, int windowSize, double Sigthresh)
         if (deviation3 > Sigthresh) {
             printf("Potential maneuver detected for inclination at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
             //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
-        }
+        }*/
     }
     printf("End of maneuver detection\n");
 }
