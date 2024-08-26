@@ -5,7 +5,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <math.h>
+#include <stdbool.h>
 #include "main.h"
 // Constants
 #define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
@@ -18,9 +19,8 @@ void computeVelocityFromTLE(const TLE_Line2 *tle2, double *v_x, double *v_y, dou
 void computeDeltaV(double vx1, double vy1, double vz1, double vx2, double vy2, double vz2, double *delvx, double *delvy, double *delvz);
 double computeVectorMagnitude(double x, double y, double z);
 double (*listOfVelocities(const tle_storage tle_st))[3];
-
-
-
+bool is_in_list(int index, int *list_of_indices, int indices_count);
+double findAvFluct(const double *arr, int realSizeOfWindow);
 void detectManeuvers(const tle_storage tle_st, int window_size, double Sigthresh);
 
 

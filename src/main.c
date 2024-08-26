@@ -11,24 +11,11 @@
 // Dependencies 
 
 
-int main() {    
-    //signal(SIGINT, handle_sigint);
-    
-    // Assuming you have a working tle_download_and_parse function
+int main() {
 
     tle_storage tle_stor = tle_download_and_parse();
     
-    // Dynamically allocate memory for velocities
-
-    //double (*velocities)[3] = (double (*)[3])listOfVelocities(tle_stor);
-    
     detectManeuvers(tle_stor, WindowSize , sigmaThreshold);
-
-    
-    // Example output of the first velocity component
-
-    // Free the dynamically allocated memory after use
-    //free(&tle_stor);
 
     return 0;
 }

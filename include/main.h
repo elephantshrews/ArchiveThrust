@@ -6,7 +6,7 @@
 
 
 
-#define WindowSize 4
+#define WindowSize 7
 #define sigmaThreshold 7
 // You can also declare other function prototypes used in main.c here if necessary
 typedef struct {

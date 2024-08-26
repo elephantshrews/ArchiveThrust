@@ -1,5 +1,4 @@
 #include "detect_maneuvers.h"
-#include <math.h>
 
 void bubbleSort(double *arr, int size) {
     for (int i = 0; i < size - 1; i++) {
@@ -38,14 +37,31 @@ double findMedian(double *arr, int size) {
 
         //FOR VALIDATION AND COMPARISON WITH MANEUVER LIST
 
+bool is_in_list(int index, int *list_of_indices, int indices_count) {
+    for (int i = 0; i < indices_count; i++) {
+        if (list_of_indices[i] == index) {
+            return true;
+        }
+    }
+    return false;
+}
+double findAvFluct(const double *arr, int realSizeOfWindow){
+    double diff = 0;
+    for (int j = 0; j<realSizeOfWindow-1; j++){
+        diff += fabs(arr[j+1]-arr[j]);
+        //printf("this is the diff: %f\n", fabs(arr[j+1]-arr[j]));
+    }
+    double averageFluctuation = diff/(realSizeOfWindow-1);
+    return averageFluctuation;
+}
+
 
 void detectManeuvers(const tle_storage tle_st, int windowSize, double Sigthresh) {
     printf("Starting maneuver detection...\n");
     printf("initializing detection...\n");
     int nmemb = tle_st.nmemb;
     double meanMotions[nmemb];
-    double eccentricity[nmemb];
-    double inclination[nmemb];
+    int listOfManeuvers[nmemb];
     printf("Initializing calculation of velocities... \n");
     
     
@@ -54,51 +70,40 @@ void detectManeuvers(const tle_storage tle_st, int windowSize, double Sigthresh)
     int count = 0;
     while (count < nmemb) {
         meanMotions[count] = tle_st.tles[count].line2.meanMotion;
-        eccentricity[count] = tle_st.tles[count].line2.eccentricity;
-        inclination[count] = tle_st.tles[count].line2.inclination;
-        //printf("Difference between calcs of velocity mags: %f\n", computeVectorMagnitude(velocities[count][0],velocities[count][1],velocities[count][2])-velocity_magnitude[count]); 
-        //printf("Computed via vector: %f, and computed via orbital elements: %f", computeVectorMagnitude(velocities[count][0],velocities[count][1],velocities[count][2]), velocity_magnitude[count]);
         count++;
     }
+    
 
     // Compute delta V vectors and their magnitudes
+    int maneuverCount = 0;
 
     for (int i = windowSize; i < nmemb - 1; i++) {
         // Create a window of delta V magnitudes
         double window1[windowSize];
-        double window2[windowSize];
-        double window3[windowSize];
+        int realSizeOfWindow = 0;
         for (int j = 0; j < windowSize; j++) {
-            window1[j] = meanMotions[i - j];
-            window2[j] = eccentricity[i - j];
-            window3[j] = inclination[i - j];
+            if (!is_in_list(i-j-1,listOfManeuvers,maneuverCount+1)) {
+                window1[j] = meanMotions[i - j - 1];
+                //printf("window entry: %f\n", window1[j]);
+                //printf("index of potential maneuver in window: %d\n", i-j+1);
+                realSizeOfWindow ++;
+            }
         }
+        double AvFluct1 = findAvFluct(window1, realSizeOfWindow);
+        //printf("Average fluctuation: %f\n", AvFluct1);
         // Compute the median of the window
-        double median1 = findMedian(window1, windowSize);
-        double median2 = findMedian(window2, windowSize);
-        double median3 = findMedian(window3, windowSize);
-        // Check if the current delta V magnitude exceeds the threshold relative to the median
-        double deviation1 = fabs(meanMotions[i] - median1)*1.e5;
-        double deviation2 = fabs(eccentricity[i] - median2)*1.e5;
-        double deviation3 = fabs(inclination[i] - median3)*1.e4;
-        //printf("This is the deviation: %f\n", deviation);
-        //printf("This is the deviation: %f\n", deviation);
-
-        if (deviation1 > Sigthresh*6) {
+        double median1 = findMedian(window1, realSizeOfWindow);
+        double deviation1 = fabs(meanMotions[i] - median1);
+        double deviation1Normalized = deviation1/AvFluct1;
+        //printf("deviation: %f\n", deviation1);
+        //printf("This is the normalized deviation: %f\n", deviation1Normalized);
+        if (deviation1Normalized > Sigthresh) {
+            printf("Deviation: %f\n", deviation1Normalized);
             printf("Potential maneuver detected for mean motion at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
             //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
+            listOfManeuvers[maneuverCount] = i + 1;
+            maneuverCount ++;
         }
-        /*
-        if (deviation2 > Sigthresh) {
-            //printf("deviation %f\n", deviation2);
-            printf("Potential maneuver detected for eccentricity at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
-            //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
-        }
-
-        if (deviation3 > Sigthresh) {
-            printf("Potential maneuver detected for inclination at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tle_st.tles[i].line1.epochYear,tle_st.tles[i].line1.epochDay);
-            //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
-        }*/
     }
     printf("End of maneuver detection\n");
 }
