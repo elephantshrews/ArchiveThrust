@@ -7,24 +7,24 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include <gsl/gsl_multifit.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_vector.h>
 #include "main.h"
 // Constants
 #define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
 
 #define WindowSize 7
-#define sigmaThreshold 8
-
+#define sigmaThreshold 10
+#define POLY_DEGREE 1
+#define FADE_FACTOR 0.9
 // Function prototypes
-double findMedian(double *arr, int size);
-void bubbleSort(double *arr, int size);
-void computeVelocityFromTLE(const TLE_Line2 *tle2, double *v_x, double *v_y, double *v_z);
-void computeDeltaV(double vx1, double vy1, double vz1, double vx2, double vy2, double vz2, double *delvx, double *delvy, double *delvz);
-double computeVectorMagnitude(double x, double y, double z);
-double (*listOfVelocities(const tle_storage tle_st))[3];
-bool is_in_list(int index, int *list_of_indices, int indices_count);
-double findAvFluct(const double *arr, int realSizeOfWindow);
-void detectManeuvers(const tle_storage *tle_st);
 
+void extractOrbParams(const tlePermanentStorage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities);
+bool IsInList(int index, int *list_of_indices, int indices_count);
+double findAvFluct(const double *data, const double *fittedData, int realSizeOfWindow);
+void detectManeuvers(const double *orbitParams, const double *epochYears, const double *epochDays, int nmemb);
+void multOrbParams(const tlePermanentStorage *tleSt);
 
 //FOR VALIDATION
 #define MAX_LINE_LENGTH 512
@@ -32,7 +32,7 @@ void detectManeuvers(const tle_storage *tle_st);
 
 typedef struct {
     char line1[MAX_LINE_LENGTH];
-} Maneuver_line;
+} maneuverLine;
 
 typedef struct {
     char satID[6]; // Changed to 6 to accommodate null terminator

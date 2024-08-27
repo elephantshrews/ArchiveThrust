@@ -22,7 +22,7 @@ typedef struct {
     int ephemerisType;
     int elementSetNumber;
     int checksum;
-} TLE_Line1;
+} tleLineOne;
 
 // Datastructure that contains the second line of a TLE
 typedef struct {
@@ -36,27 +36,28 @@ typedef struct {
     float meanMotion;
     int revNumber;
     int checksum;
-} TLE_Line2;
+} tleLineTwo;
 
 typedef struct {
-	TLE_Line1 line1;
-	TLE_Line2 line2;
+	tleLineOne line1;
+	tleLineTwo line2;
 } TLE;
 
 typedef struct {
     char *str;
     size_t size;
-} temp_storage;
+} tleTemporaryStorage;
 
 
 typedef struct {
     TLE *tles;
     size_t nmemb;
-} tle_storage;
+} tlePermanentStorage;
 
 
-double (*listOfVelocities(const tle_storage tle_st))[3];
-void detectManeuvers(const tle_storage *tle_st);
-tle_storage tle_download_and_parse(void);
+double (*listOfVelocities(const tlePermanentStorage tle_st))[3];
+//void detectManeuvers(const tle_storage *tle_st);
+void multOrbParams(const tlePermanentStorage *tleSt);
+tlePermanentStorage tle_download_and_parse(void);
 
 #endif // MAIN_H

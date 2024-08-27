@@ -3,7 +3,7 @@ CC		:= gcc
 
 # Compiler flags
 CFLAGS  := -Iinclude -Wall -Wextra 
-LIBS    := -lcurl -lm
+LIBS    := -lcurl -lm -lgsl
 
 # Folders for installing
 prefix	:= /usr/local
