@@ -20,11 +20,11 @@
 #define FADE_FACTOR 0.9
 // Function prototypes
 
-void extractOrbParams(const tle_storage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities);
+void extractOrbParams(const tlePermanentStorage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities);
 bool IsInList(int index, int *list_of_indices, int indices_count);
 double findAvFluct(const double *data, const double *fittedData, int realSizeOfWindow);
 void detectManeuvers(const double *orbitParams, const double *epochYears, const double *epochDays, int nmemb);
-void multOrbParams(const tle_storage *tleSt);
+void multOrbParams(const tlePermanentStorage *tleSt);
 
 //FOR VALIDATION
 #define MAX_LINE_LENGTH 512
@@ -32,7 +32,7 @@ void multOrbParams(const tle_storage *tleSt);
 
 typedef struct {
     char line1[MAX_LINE_LENGTH];
-} Maneuver_line;
+} maneuverLine;
 
 typedef struct {
     char satID[6]; // Changed to 6 to accommodate null terminator

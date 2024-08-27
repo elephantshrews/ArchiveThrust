@@ -10,7 +10,7 @@
 
 #include "detect_maneuvers.h"
 
-void extractOrbParams(const tle_storage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities) {
+void extractOrbParams(const tlePermanentStorage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities) {
     int nmemb = tle_st->nmemb;
     for (int i = 0; i < nmemb; i++) {
         epochYears[i] = tle_st->tles[i].line1.epochYear;
@@ -127,7 +127,7 @@ void detectManeuvers(const double *epochYears, const double *epochDays, const do
 }
 
 
-void multOrbParams(const tle_storage *tleSt) {
+void multOrbParams(const tlePermanentStorage *tleSt) {
     int nmemb = tleSt->nmemb;
     double epochDays[nmemb];
     double epochYears[nmemb];

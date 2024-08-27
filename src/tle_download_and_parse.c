@@ -19,12 +19,12 @@ size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp){
     size_t realsize = size * nmemb;
     // fprintf(stderr, "Got %ld bytes \n \n", realsize);
 	
-	temp_storage* temp_stor = (temp_storage *)userp;
+	tleTemporaryStorage* tletemporarystorage = (tleTemporaryStorage *)userp;
     
 
 
     // Reallocate memory to fit the new data
-	char *ptr = realloc(temp_stor->str, temp_stor->size + realsize + 1);
+	char *ptr = realloc(tletemporarystorage->str, tletemporarystorage->size + realsize + 1);
 	if (ptr == NULL) {
 		// out of memory
 		printf("not enough memory (realloc returned NULL)\n");
@@ -32,17 +32,17 @@ size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp){
 	}
 
     // Copy the new data into the memory block
-	temp_stor->str = ptr;
-    memcpy(&(temp_stor->str[temp_stor->size]), contents, realsize);
-    temp_stor->size += realsize;
-	temp_stor->str[temp_stor->size] = 0; 
+	tletemporarystorage->str = ptr;
+    memcpy(&(tletemporarystorage->str[tletemporarystorage->size]), contents, realsize);
+    tletemporarystorage->size += realsize;
+	tletemporarystorage->str[tletemporarystorage->size] = 0; 
 
 
 	return realsize;
 }
 
 // Return pointer to memory
-int tle_download(const char *usrname, const char *password, temp_storage* temp_stor){
+int tle_download(const char *usrname, const char *password, tleTemporaryStorage* tletemporarystorage){
 	
 
 	// Initialize libcurl. Not so clear what this  intilization means
@@ -107,7 +107,7 @@ int tle_download(const char *usrname, const char *password, temp_storage* temp_s
 	}	
 	curl_easy_setopt(curl, CURLOPT_URL, url);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) temp_stor);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) tletemporarystorage);
 	curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 	res = curl_easy_perform(curl);
 	if (res != CURLE_OK){
@@ -124,7 +124,7 @@ int tle_download(const char *usrname, const char *password, temp_storage* temp_s
 
 
 // These two functions take a line as an input and store it correctly in the TLE_datastructures.
-void parseTLELine1(const char *line, TLE_Line1 *tle1) { 
+void parseTLELine1(const char *line, tleLineOne *tle1) { 
    char launchPiece[4] = {0};
     sscanf(line, "%1d%5d%1c%2d%3d%3s%2d%12f%10f%8f%9f%1d%4d%1d",
            &tle1->lineNumber,
@@ -144,7 +144,7 @@ void parseTLELine1(const char *line, TLE_Line1 *tle1) {
     strcpy(tle1->launchPiece, launchPiece);
 }
 
-void parseTLELine2(const char *line, TLE_Line2 *tle2) {
+void parseTLELine2(const char *line, tleLineTwo *tle2) {
     int eccentricityRaw;
     sscanf(line, "%1d%5d%9f%9f%7d%9f%9f%9f%5d%1d",
            &tle2->lineNumber,
@@ -170,14 +170,14 @@ void tle_print(TLE *tle){
 }
 
 
-int tle_parse(temp_storage *temp_stor, tle_storage* tle_stor){
+int tle_parse(tleTemporaryStorage *tletemporarystorage, tlePermanentStorage* tlepermanentstorage){
 	
 	int count = 0;
 	int tle_nmb = 0;
 	char line[100];
 
 	// Open a memory stream for reading
-	FILE *stream = fmemopen(temp_stor->str, temp_stor->size, "r");
+	FILE *stream = fmemopen(tletemporarystorage->str, tletemporarystorage->size, "r");
 	if (stream == NULL) {
 		perror("fmemopen");
 		return 1;
@@ -188,10 +188,10 @@ int tle_parse(temp_storage *temp_stor, tle_storage* tle_stor){
 		line[strcspn(line, "\n")] = '\0';
 
 		if (count % 2 == 0){
-			parseTLELine1(line, &(tle_stor->tles[tle_nmb].line1));
+			parseTLELine1(line, &(tlepermanentstorage->tles[tle_nmb].line1));
 		}
 		else if (count % 2 == 1){
-			parseTLELine2(line, &(tle_stor->tles[tle_nmb].line2));
+			parseTLELine2(line, &(tlepermanentstorage->tles[tle_nmb].line2));
 			tle_nmb ++;		
 		}
 
@@ -206,34 +206,34 @@ int tle_parse(temp_storage *temp_stor, tle_storage* tle_stor){
 }
 
 
-tle_storage tle_download_and_parse(){
+tlePermanentStorage tle_download_and_parse(){
 	// Temporarily store the data in the stack
-	temp_storage temp_stor;
-	temp_stor.str = malloc(1); 
-	temp_stor.size = 0;
+	tleTemporaryStorage tletemporarystorage;
+	tletemporarystorage.str = malloc(1); 
+	tletemporarystorage.size = 0;
 
 
 	// This function stores a string with the
 	// tles in the stack.
 	printf("Starting tle download and parsing ...\n");
 
-	tle_download(USERNAME, PASSWORD, &temp_stor);
+	tle_download(USERNAME, PASSWORD, &tletemporarystorage);
 	
 	printf("Finished tle download and parsing \n");
 		
-	size_t nmemb = count_lines(temp_stor.str) / 2;
+	size_t nmemb = count_lines(tletemporarystorage.str) / 2;
 	// Now we want to permamently save the parsed 
 	// TLES in the heap
 
-	// Declare tle_storage
-	tle_storage tle_stor;
+	// Declare tlePermanentStorage
+	tlePermanentStorage tlepermanentstorage;
 
 	// Initialize the storage to contain nmemb TLEs.
-	tle_stor.nmemb = nmemb;
-	tle_stor.tles = (TLE *) malloc(nmemb * sizeof(TLE));
-	tle_parse(&temp_stor, &tle_stor); 
-    free(temp_stor.str);
-    temp_stor.str = NULL;    
+	tlepermanentstorage.nmemb = nmemb;
+	tlepermanentstorage.tles = (TLE *) malloc(nmemb * sizeof(TLE));
+	tle_parse(&tletemporarystorage, &tlepermanentstorage); 
+    free(tletemporarystorage.str);
+    tletemporarystorage.str = NULL;    
 	printf("Number of TLEs: %ld \n", nmemb);
-	return tle_stor;
+	return tlepermanentstorage;
 }
