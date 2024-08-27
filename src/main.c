@@ -15,7 +15,7 @@ int main() {
 
     tle_storage tle_stor = tle_download_and_parse();
     
-    detectManeuvers(tle_stor, WindowSize , sigmaThreshold);
+    detectManeuvers(&tle_stor);
 
     return 0;
 }

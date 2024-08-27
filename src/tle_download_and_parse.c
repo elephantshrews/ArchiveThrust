@@ -68,8 +68,8 @@ int tle_download(const char *usrname, const char *password, temp_storage* temp_s
 	printf("Please enter NORAD ID: ");
 	scanf("%d", &NORAD_ID);
 
-	const char *start_time = "1950-01-01";
-	const char *end_time = "2024-08-04";
+	const char *start_time = "2010-01-01";
+	const char *end_time = "2015-08-04";
 	static const char *base_url =
 	"https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/%d/orderby/TLE_LINE1%%20ASC/EPOCH/%s--%s/format/tle";
 

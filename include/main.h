@@ -6,8 +6,6 @@
 
 
 
-#define WindowSize 7
-#define sigmaThreshold 7
 // You can also declare other function prototypes used in main.c here if necessary
 typedef struct {
     int     lineNumber;
@@ -58,7 +56,7 @@ typedef struct {
 
 
 double (*listOfVelocities(const tle_storage tle_st))[3];
-void detectManeuvers(const tle_storage tle_st,int window_size, double Sigthresh);
+void detectManeuvers(const tle_storage *tle_st);
 tle_storage tle_download_and_parse(void);
 
 #endif // MAIN_H

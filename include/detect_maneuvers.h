@@ -11,6 +11,8 @@
 // Constants
 #define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
 
+#define WindowSize 7
+#define sigmaThreshold 8
 
 // Function prototypes
 double findMedian(double *arr, int size);
@@ -21,7 +23,7 @@ double computeVectorMagnitude(double x, double y, double z);
 double (*listOfVelocities(const tle_storage tle_st))[3];
 bool is_in_list(int index, int *list_of_indices, int indices_count);
 double findAvFluct(const double *arr, int realSizeOfWindow);
-void detectManeuvers(const tle_storage tle_st, int window_size, double Sigthresh);
+void detectManeuvers(const tle_storage *tle_st);
 
 
 //FOR VALIDATION
