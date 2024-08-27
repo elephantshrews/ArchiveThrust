@@ -56,7 +56,8 @@ typedef struct {
 
 
 double (*listOfVelocities(const tle_storage tle_st))[3];
-void detectManeuvers(const tle_storage *tle_st);
+//void detectManeuvers(const tle_storage *tle_st);
+void multOrbParams(const tle_storage *tleSt);
 tle_storage tle_download_and_parse(void);
 
 #endif // MAIN_H

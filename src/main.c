@@ -1,7 +1,11 @@
-/*
- * Author: Michiel Snoeken & Freddy Spaulding
- * Purpose: Archive Thrust
- * Copyright 2024
+/*                                                                          
+* ArchiveThrust - main.c
+*
+* Authors: Michiel Snoeken & Freddy Spaulding
+* Created in 2024
+* GNU General Public License
+*
+* 
 */
 
 #include "main.h"
@@ -15,7 +19,7 @@ int main() {
 
     tle_storage tle_stor = tle_download_and_parse();
     
-    detectManeuvers(&tle_stor);
+    multOrbParams(&tle_stor);
 
     return 0;
 }

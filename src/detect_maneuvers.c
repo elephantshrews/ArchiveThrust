@@ -1,38 +1,24 @@
+/*                                                                          
+* ArchiveThrust - detect_maneuvers.c
+*
+* Authors: Michiel Snoeken & Freddy Spaulding
+* Created in 2024
+* GNU General Public License
+*
+* 
+*/
+
 #include "detect_maneuvers.h"
 
-void bubbleSort(double *arr, int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                // Swap arr[j] and arr[j + 1]
-                double temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
+void extractOrbParams(const tle_storage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities) {
+    int nmemb = tle_st->nmemb;
+    for (int i = 0; i < nmemb; i++) {
+        epochYears[i] = tle_st->tles[i].line1.epochYear;
+        epochDays[i] = tle_st->tles[i].line1.epochDay;
+        meanMotions[i] = tle_st->tles[i].line2.meanMotion;
+        inclinations[i] = tle_st->tles[i].line2.inclination;
+        eccentricities[i] = tle_st->tles[i].line2.eccentricity;
     }
-}
-// Function to find the median of the array
-double findMedian(double *arr, int size) {
-    // Create a copy of the array to sort
-    double *sortedArr = (double *)malloc(size * sizeof(double));
-    memcpy(sortedArr, arr, size * sizeof(double));
-    
-    // Sort the array using Bubble Sort
-    bubbleSort(sortedArr, size);
-    
-    // Calculate the median
-    double median;
-    if (size % 2 == 0) {
-        median = (sortedArr[size / 2 - 1] + sortedArr[size / 2]) / 2.0;
-    } else {
-        median = sortedArr[size / 2];
-    }
-    
-    // Free the allocated memory
-    free(sortedArr);
-    //printf("this is the median: \n%f\n\n", median);
-    return median;
 }
 
         //FOR VALIDATION AND COMPARISON WITH MANEUVER LIST
@@ -45,13 +31,13 @@ bool IsInList(int index, int *listOfIndices, int indicesCount) {
     }
     return false;
 }
-double findAvFluct(const double *arr, int realSizeOfWindow){
+double findAvFluct(const double *data, const double *fittedData, int realSizeOfWindow){
     double diff = 0;
-    for (int j = 0; j<realSizeOfWindow-1; j++){
-        diff += fabs(arr[j+1]-arr[j]);
+    for (int j = 0; j<realSizeOfWindow; j++){
+        diff += fabs(data[j]-fittedData[j]);
         //printf("this is the diff: %f\n", fabs(arr[j+1]-arr[j]));
     }
-    double averageFluctuation = diff/(realSizeOfWindow-1);
+    double averageFluctuation = diff/(realSizeOfWindow);
     return averageFluctuation;
 }
 void fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients,double chisq) {
@@ -90,69 +76,50 @@ void fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParam
 }
 
 
-void detectManeuvers(const tle_storage *tleSt) {
+void detectManeuvers(const double *epochYears, const double *epochDays, const double *orbitParams, int nmemb) {
     printf("Starting maneuver detection...\n");
-    printf("initializing detection...\n");
-    int nmemb = tleSt->nmemb;
-    double meanMotions[nmemb];
-    //int listOfManeuversMeanMotion[nmemb];
-    printf("Initializing calculation of velocities... \n");
-    
-    
-    // Dynamically allocate memory for the velocities
-    printf("Grabbing list of Mean Motion\n");
-    int count = 0;
-    while (count < nmemb) {
-        meanMotions[count] = tleSt->tles[count].line2.meanMotion;
-        count++;
-    }
-    
 
-    // Compute delta V vectors and their magnitudes
-    int maneuverCountMeanMotion = 0;
+
+
     for (int i = WindowSize; i < nmemb - 1; i++) {
-        // Create a window of delta V magnitudes
-        double windowMeanMotion[WindowSize];
-        double epochDays[WindowSize];
-        double epochYears[WindowSize];
-        int realSizeOfWindowMeanMotion = 0;
+        
+        double windowOrbitParams[WindowSize] = {0};
+        double epochDaysWindow[WindowSize+1] = {0};
+        double beginningDay = epochDays[i - WindowSize ]; 
+        double epochYearsWindow[WindowSize+1];
         for (int j = 0; j < WindowSize; j++) {
-            windowMeanMotion[j] = meanMotions[i - WindowSize + j];
-            epochDays[j] = tleSt->tles[i - WindowSize + j].line1.epochDay;
-            epochYears[j] = tleSt->tles[i - WindowSize + j].line1.epochYear;
-            epochDays[j] += 365*(epochYears[j]-epochYears[0]);
-            epochDays[j] -= epochDays[0]; 
-                //printf("window entry: %f\n", window1[j]);
-                //printf("index of potential maneuver in window: %d\n", i-j+1);
-            realSizeOfWindowMeanMotion ++;
+            windowOrbitParams[j] = orbitParams[i - WindowSize + j];
+            epochDaysWindow[j] = epochDays[i - WindowSize + j] - beginningDay;
+            epochYearsWindow[j] = epochYears[i - WindowSize + j];
+            epochDaysWindow[j] += 366*(epochYearsWindow[j]-epochYearsWindow[0]);
+
         }  
         double coefficients[POLY_DEGREE + 1];
         double chisq=1;
-        fitFadingMemoryPolynomial(epochDays, windowMeanMotion, WindowSize, coefficients, chisq);
-        double fittedValue = 0;
-        for (int k=0; k<POLY_DEGREE+1; k++) {
-            fittedValue += coefficients[k]*pow(epochDays[i]+365*(epochYears[i]-epochYears[i-WindowSize]),k);
-            
-        }
+        fitFadingMemoryPolynomial(epochDays, windowOrbitParams, WindowSize, coefficients, chisq);
+        epochYearsWindow[WindowSize] = epochYears[i]; 
+        epochDaysWindow[WindowSize] = epochDays[i]-beginningDay+366*(epochYearsWindow[WindowSize]-epochYearsWindow[0]);
 
-        double AvFluctMeanMotion = findAvFluct(windowMeanMotion, realSizeOfWindowMeanMotion);
-        if (AvFluctMeanMotion<1.e-7){
-            AvFluctMeanMotion = 1.e-5;
+        double fittedValues[WindowSize+1] = {0};
+        for (int l=0; l<WindowSize+1; l++){
+            for (int k=0; k<POLY_DEGREE+1; k++) {
+                fittedValues[l] += coefficients[k]*pow(epochDays[l],k);
+            }
+        }
+        double AvFluct = findAvFluct(windowOrbitParams, fittedValues, WindowSize);
+        if (AvFluct<1.e-7){
+            AvFluct = 1.e-5;
         }
         
         //double medianMeanMotion = findMedian(windowMeanMotion, realSizeOfWindowMeanMotion);
-        double deviationMeanMotion = fabs(meanMotions[i] - fittedValue);
-        double deviationMeanMotionNormalized = deviationMeanMotion/AvFluctMeanMotion;
+        double deviation = fabs(orbitParams[i] - fittedValues[WindowSize]);
+        double deviationNormalized = deviation/AvFluct;
         
 
 
-        if (deviationMeanMotionNormalized > sigmaThreshold) {
-            printf("deviation: %f and average fluctuation: %f\n", deviationMeanMotion, AvFluctMeanMotion);
-            printf("Deviation: %f\n", deviationMeanMotionNormalized);
-            printf("Potential maneuver detected for mean motion at index %d (Epochyear: %d and Epochday: %f)\n", i + 1 ,tleSt->tles[i].line1.epochYear,tleSt->tles[i].line1.epochDay);
-            //printf("Delta V magnitude: %f, Median: %f, Deviation: %f\n", deltaVMagnitudes[i], median, deviation);
-            //listOfManeuversMeanMotion[maneuverCountMeanMotion] = i + 1;
-            maneuverCountMeanMotion ++;
+        if (deviationNormalized > sigmaThreshold) {
+            printf("Potential maneuver detected for mean motion at index %d (Epochyear: %f and Epochday: %f)\n", i + 1 ,epochYears[i],epochDays[i]);
+
         }
 
     }
@@ -160,3 +127,15 @@ void detectManeuvers(const tle_storage *tleSt) {
 }
 
 
+void multOrbParams(const tle_storage *tleSt) {
+    int nmemb = tleSt->nmemb;
+    double epochDays[nmemb];
+    double epochYears[nmemb];
+    double meanMotions[nmemb];
+    double inclinations[nmemb];
+    double eccentricities[nmemb];
+
+    extractOrbParams(tleSt, epochYears, epochDays, meanMotions, inclinations,eccentricities);
+    detectManeuvers( epochYears, epochDays, meanMotions, nmemb);
+
+}
