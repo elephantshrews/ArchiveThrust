@@ -7,13 +7,17 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include <gsl/gsl_multifit.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_vector.h>
 #include "main.h"
 // Constants
 #define MU 398600.4418 // Gravitational parameter for Earth in km^3/s^2
 
 #define WindowSize 7
 #define sigmaThreshold 8
-
+#define POLY_DEGREE 1
+#define FADE_FACTOR 0.9
 // Function prototypes
 double findMedian(double *arr, int size);
 void bubbleSort(double *arr, int size);
