@@ -3,10 +3,9 @@
 ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a command-line application that prompts the user for a satellite identification number (NORAD ID) and their login credentials for Space-Track. The program then returns a list of the most recent maneuvers of the selected satellite. These maneuvers are computed by downloading TLE data archives and applying known algorithms to detect such maneuvers.
 
 # Installation
-
-To install the application, first install the external libraries with the code below.
+This installation guide is specifically tailored for Fedora; however, it can be used as a reference or example for other Linux distributions or Windows/MacOS with appropriate adjustments. To install the application, the installation of the external C libraries with the code below is required.
 ```
-sudo dnf install libcurl-dev
+sudo dnf install libcurl-devel gsl-devel blas-devel
 ```
 Second, clone the repository in the repository where you want to store ArchiveThrust.
 ```
