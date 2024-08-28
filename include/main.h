@@ -1,3 +1,17 @@
+/*
+ *
+ * ArchiveThrust - main.h
+ *
+ * Authors: Michiel Snoeken & Freddy Spaulding
+ * Created in 2024
+ * GNU General Public License
+ *
+ *
+*/
+
+
+
+
 #ifndef MAIN_H
 #define MAIN_H
 #include <stdio.h>
@@ -6,7 +20,6 @@
 
 
 
-// You can also declare other function prototypes used in main.c here if necessary
 typedef struct {
     int     lineNumber;
     int     satelliteNumber;
@@ -24,7 +37,6 @@ typedef struct {
     int checksum;
 } tleLineOne;
 
-// Datastructure that contains the second line of a TLE
 typedef struct {
     int lineNumber;
     int satelliteNumber;
@@ -54,9 +66,8 @@ typedef struct {
     size_t nmemb;
 } tlePermanentStorage;
 
-
+/* Prototype */
 double (*listOfVelocities(const tlePermanentStorage tle_st))[3];
-//void detectManeuvers(const tle_storage *tle_st);
 void multOrbParams(const tlePermanentStorage *tleSt);
 tlePermanentStorage tle_download_and_parse(void);
 
