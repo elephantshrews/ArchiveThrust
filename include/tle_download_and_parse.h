@@ -25,12 +25,12 @@
 
 /* Prototypes */ 
 tlePermanentStorage tleDownloadParse(void);
-int tleDownload(tleTemporaryStorage* temp_stor);
-size_t tleWrite(void *contents, size_t size, size_t nmemb, void *userp);
-int tleParse(tleTemporaryStorage *temp_stor, tlePermanentStorage* tle_stor);
-void tleLineOneParse(const char *line, tleLineOne *tle1); 
-void tleLineTwoParse(const char *line, tleLineTwo *tle2);
-int linesCount(char *str);
+int _tleDownload(tleTemporaryStorage* temp_stor);
+size_t _tleWrite(void *contents, size_t size, size_t nmemb, void *userp);
+int _tleParse(tleTemporaryStorage *temp_stor, tlePermanentStorage* tle_stor);
+void _tleLineOneParse(const char *line, tleLineOne *tle1); 
+void _tleLineTwoParse(const char *line, tleLineTwo *tle2);
+int _linesCount(char *str);
 
 
 
