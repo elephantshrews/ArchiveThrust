@@ -19,7 +19,7 @@ int main() {
 
     tlePermanentStorage tlepermanentstorage = tleDownloadParse();
     
-    multOrbParams(&tlepermanentstorage);
+    detectManeuvers(&tlepermanentstorage);
 
     return 0;
 }
