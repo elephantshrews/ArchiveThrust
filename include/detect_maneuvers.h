@@ -37,27 +37,5 @@ void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitPara
 void _singleParamDetection(const double *orbitParams, const double *epochYears, const double *epochDays, int nmemb);
 void detectManeuvers(const tlePermanentStorage *tleSt);
 
-//FOR VALIDATION
-#define MAX_LINE_LENGTH 512
-#define MAX_REST_LENGTH 473
-
-typedef struct {
-    char line1[MAX_LINE_LENGTH];
-} maneuverLine;
-
-typedef struct {
-    char satID[6]; // Changed to 6 to accommodate null terminator
-    int yearbegin;
-    int daybegin;
-    int hourbegin;
-    int minutebegin;
-    int yearend;
-    int dayend;
-    int hourend;
-    int minuteend;
-    char rest[MAX_REST_LENGTH + 1]; // Added 1 for null terminator
-} manLine;
-
-
 
 #endif // MANEUVERS_H
