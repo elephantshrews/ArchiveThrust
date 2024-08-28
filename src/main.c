@@ -17,7 +17,7 @@
 
 int main() {
 
-    tlePermanentStorage tlepermanentstorage = tle_download_and_parse();
+    tlePermanentStorage tlepermanentstorage = tleDownloadParse();
     
     multOrbParams(&tlepermanentstorage);
 
