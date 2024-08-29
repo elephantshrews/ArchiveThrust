@@ -30,4 +30,4 @@ rm -r ArchiveThrust
 ```
 
 # Usage
-To use ArchiveThrust, run `ArchiveThrust` from a command prompt after installing the software. The program will ask you for a NORAD ID, which you will need to type manually into the command prompt. The software will then return recent satellite manoeuvres.
+To use ArchiveThrust, run `ArchiveThrust` from a command prompt after installing the software. The program will ask you for your login credentials from Space-Track.org, which you will need to type manually into the command prompt. Therefore, it is necessary to own an account from Space-Track. Afterwards, it will ask you for a NORAD ID. The software will then return recent satellite manoeuvres.
