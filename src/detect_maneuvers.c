@@ -136,7 +136,7 @@ void _singleParamDetection(const double *epochYears, const double *epochDays, co
 
         //Print if a maneuver is detected
         if (deviationNormalized > sigmaThreshold) {
-            printf("Potential maneuver detected for mean motion at index %d (Epochyear: %f and Epochday: %f)\n", i + 1 ,epochYears[i],epochDays[i]);
+            printf("Potential maneuver detected for mean motion in the year %f on day %f)\n", epochYears[i],epochDays[i]);
 
         }
 
