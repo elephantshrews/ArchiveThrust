@@ -1,17 +1,12 @@
-/*
- *
- * ArchiveThrust - main.h
- *
- * Authors: Michiel Snoeken & Freddy Spaulding
- * Created in 2024
- * GNU General Public License
- *
- *
+/*                                                                          
+* ArchiveThrust - main.h
+*
+* Authors: Michiel Snoeken & Freddy Spaulding
+* Created in 2024
+* GNU General Public License
+*
+* 
 */
-
-
-
-
 #ifndef MAIN_H
 #define MAIN_H
 #include <stdio.h>
@@ -66,9 +61,8 @@ typedef struct {
     size_t nmemb;
 } tlePermanentStorage;
 
-/* Prototype */
-double (*listOfVelocities(const tlePermanentStorage tle_st))[3];
-void multOrbParams(const tlePermanentStorage *tleSt);
+
+void detectManeuvers(const tlePermanentStorage *tleSt);
 tlePermanentStorage tle_download_and_parse(void);
 
 #endif // MAIN_H

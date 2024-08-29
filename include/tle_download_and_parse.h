@@ -1,15 +1,12 @@
-/*
- *
- * Archive Thrust - download_and_parse.h
- * 
- * Authors: Michiel Snoeken & Freddy Spaulding
- * Created in 2024
- * GNU General Public License
- *
- *
+/*                                                                          
+* ArchiveThrust - tle_download_and_parse.h
+*
+* Authors: Michiel Snoeken & Freddy Spaulding
+* Created in 2024
+* GNU General Public License
+*
+* 
 */
-
-
 #ifndef TLE_DOWNLOAD_H
 #define TLE_DOWNLOAD_H
 #include "gsl/gsl_matrix.h"
