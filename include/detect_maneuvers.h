@@ -31,11 +31,11 @@
 // Function prototypes
 
 
-void _extractOrbParams(const tlePermanentStorage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities);
+void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities);
 double _findAvFluct(const double *data, const double *fittedData, int realSizeOfWindow);
 void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients);
 void _singleParamDetection(const double *orbitParams, const double *epochYears, const double *epochDays, int nmemb);
-void detectManeuvers(const tlePermanentStorage *tleSt);
+void detectManeuvers(const TleStor *tleSt);
 
 
 #endif // MANEUVERS_H

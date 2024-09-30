@@ -11,7 +11,7 @@
 #include "detect_maneuvers.h"
 
 //Place orbital parameters from a list of TLEs in a tle storage into seperate arrays
-void _extractOrbParams(const tlePermanentStorage *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities) {
+void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities) {
     int nmemb = tle_st->nmemb;
     for (int i = 0; i < nmemb; i++) {
         epochYears[i] = tle_st->tles[i].line1.epochYear;
@@ -153,7 +153,7 @@ void _singleParamDetection(const double *epochYears, const double *epochDays, co
  * in singleParamDetection any other can 
  * be given.
 */
-void detectManeuvers(const tlePermanentStorage *tleSt) {
+void detectManeuvers(const TleStor *tleSt) {
     int nmemb = tleSt->nmemb;
     double epochDays[nmemb];
     double epochYears[nmemb];

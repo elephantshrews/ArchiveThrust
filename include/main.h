@@ -53,16 +53,16 @@ typedef struct {
 typedef struct {
     char *str;
     size_t size;
-} tleTemporaryStorage;
+} TleTemp;
 
 
 typedef struct {
     TLE *tles;
     size_t nmemb;
-} tlePermanentStorage;
+} TleStor;
 
 
-void detectManeuvers(const tlePermanentStorage *tleSt);
-tlePermanentStorage tle_download_and_parse(void);
+void detectManeuvers(const TleStor *tleSt);
+TleStor tle_download_and_parse(void);
 
 #endif // MAIN_H

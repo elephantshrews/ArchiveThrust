@@ -17,9 +17,8 @@
 
 int main() {
 
-    tlePermanentStorage tlepermanentstorage = tleDownloadParse();
-    
-    detectManeuvers(&tlepermanentstorage);
+    TleStor* tlestor = tleDownloadParse(); 
+    detectManeuvers(tlestor);
 
     return 0;
 }
