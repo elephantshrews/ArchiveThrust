@@ -1,51 +1,52 @@
 # Compiler
-CC		:= gcc
+CC      := gcc
 
 # Compiler flags
-CFLAGS  := -Iinclude -Wall -Wextra 
+CFLAGS  := -Iinclude -Wall -Wextra -fPIC   # -fPIC is necessary for shared libraries
 LIBS    := -lcurl -lm -lgsl -lcblas
 
 # Folders for installing
-prefix	:= /usr/local
+prefix  := /usr/local
 bindir  := $(prefix)/bin
-
+libdir  := $(prefix)/lib
 
 # Source files
-srcs	:= src/main.c src/tle_download_and_parse.c src/detect_maneuvers.c
+srcs    := src/tle_download_and_parse.c src/detect_maneuvers.c
 
 # Object files
-objs	:= $(srcs:src/%.c=build/%.o)
+objs    := $(srcs:src/%.c=build/%.o)
 
-# Executable file
-exec	:= ArchiveThrust
+# Shared library target (.so for Linux, .dll for Windows)
+ifeq ($(OS),Windows_NT)
+    shared_lib := ArchiveThrust.dll
+    shared_lib_flags := -shared -o $(shared_lib)
+else
+    shared_lib := ArchiveThrust.so
+    shared_lib_flags := -shared -o $(shared_lib) -Wl,-soname,$(shared_lib)
+endif
 
 # Default target
-all: $(exec)
+all: $(shared_lib)
 
-# Linking
-$(exec): $(objs)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+# Linking shared library
+$(shared_lib): $(objs)
+	$(CC) $(shared_lib_flags) $^ $(LIBS)
 
-# 
+# Compiling object files
 build/%.o: src/%.c
 	@mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Install software
-install: $(exec)
-	install -Dm755 $(exec) 		$(bindir)/$(exec)
+# Install the shared library
+install: $(shared_lib)
+	install -Dm755 $(shared_lib)  $(libdir)/$(shared_lib)
 
-# Uninstall software
+# Uninstall the shared library
 uninstall:
-	rm -f $(bindir)/$(exec)
+	rm -f $(libdir)/$(shared_lib)
 
 # Clean up
 clean:
-	rm -f build/*.o $(exec)
-	
+	rm -f build/*.o $(shared_lib)
 
-.PHONY: all clean
-
-# $@ represents target of the rule.
-# $^ represent all prerequisities.
-# syntax: $(variable:pattern=replacement)."pattern" is a sequence of characters in a string and replaces it with replacement. % serves here as "anything bbetween".
+.PHONY: all clean install uninstall
