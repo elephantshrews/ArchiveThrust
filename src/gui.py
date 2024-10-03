@@ -8,6 +8,5 @@ norad_id = "25544"
 
 
 login(username, password)
-temp_stor = create_temporary_storage()
 perm_stor = create_permanent_storage()
-download(norad_id, temp_stor, perm_stor)
+download(norad_id, perm_stor)

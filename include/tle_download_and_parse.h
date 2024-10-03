@@ -22,7 +22,7 @@
 
 /* Prototypes */ 
 TleStor* tleDownloadParse(void);
-int download(char* norad_id, void* tletemp_init, void *tlestor_init);
+int download(char* norad_id, void *tlestor_init);
 int login(char *username, char *password);
 void* create_temporary_storage(void);
 void* create_permanent_storage(void);

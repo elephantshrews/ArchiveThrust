@@ -60,21 +60,15 @@ int login(char* username, char* password)
     	return 0; // Succesfull login
 }
 
-int download(char* norad_id, void* tletemp_init, void* tlestor_init)
+int download(char* norad_id, void* tlestor_init)
 {
-        TleTemp* tletemp = (TleTemp *) tletemp_init;
         TleStor* tlestor = (TleStor *) tlestor_init;
-       
-
-
+  
+        // Create temporary storage for TLEs
+        TleTemp* tletemp = malloc(sizeof(TleTemp));
         tletemp->str = malloc(1);
-        printf("Memory allocation for temporary storage successful\n");
-        if (tletemp->str == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            return -1; // Or another appropriate error code
-        }
         tletemp->size = 0;
-        
+
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
         char *start = "2010-01-01";
@@ -127,21 +121,6 @@ int download(char* norad_id, void* tletemp_init, void* tlestor_init)
     	return 0;
 }
 
-
-void* create_temporary_storage(void)
-{
-        TleTemp* tletemp_init = malloc(sizeof(TleTemp));
-        // Allocate memory on the heap
-        if (tletemp_init == NULL){
-            // Check if memory allocation was successful
-            fprintf(stderr, "Memory allocation failed\n");
-            return NULL; // Return NULL to indicate failure
-        }
-
-        tletemp_init->str = NULL;
-        tletemp_init->size = 0;
-        return (void *) tletemp_init;
-}
 
 void* create_permanent_storage(void)
 {

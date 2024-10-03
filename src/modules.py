@@ -17,13 +17,6 @@ lib.login.restype = ctypes.c_int
 def login(username, password):
     return lib.login(username.encode('utf-8'), password.encode('utf-8'))
 
-#create temporary strorage
-lib.create_temporary_storage.restype = ctypes.c_void_p
-def create_temporary_storage():
-    ptr = lib.create_temporary_storage()
-    if ptr is None:
-        raise RuntimeError("Failed to create temporary storage")
-    return ptr 
 
 # create permanent storage
 lib.create_permanent_storage.restype = ctypes.c_void_p
@@ -35,7 +28,7 @@ def create_permanent_storage():
 
 lib.download.argtypes = [ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p]
 lib.download.restype = ctypes.c_int
-def download(norad_id, tletemp, tlestor):
-    if tletemp is None or tlestor is None:
+def download(norad_id, tlestor):
+    if tlestor is None:
         raise RuntimeError("Temporary or permanent storage is None")
-    return lib.download(norad_id.encode('utf-8'), tletemp, tlestor)
+    return lib.download(norad_id.encode('utf-8'), tlestor)
