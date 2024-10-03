@@ -21,14 +21,18 @@
 #include "main.h"
 
 /* Prototypes */ 
-tlePermanentStorage tleDownloadParse(void);
-int _tleDownload(tleTemporaryStorage* temp_stor);
-size_t _tleWrite(void *contents, size_t size, size_t nmemb, void *userp);
-int _tleParse(tleTemporaryStorage *temp_stor, tlePermanentStorage* tle_stor);
-void _tleLineOneParse(const char *line, tleLineOne *tle1); 
-void _tleLineTwoParse(const char *line, tleLineTwo *tle2);
-int _linesCount(char *str);
+TleStor* tleDownloadParse(void);
+int download(char* norad_id, void *tlestor_init);
+int login(char *username, char *password);
+void* create_temporary_storage(void);
+void* create_permanent_storage(void);
 
+static size_t write(void *cont, size_t size, size_t nmemb, void *userp);
+static int tle_parse(TleTemp *tletemp, TleStor *tlestor);
+static void tle_line_one_parse(const char *line, tleLineOne *tle1); 
+static void tle_line_two_parse(const char *line, tleLineTwo *tle2);
+static void cleanup_curl(CURL* curl);
+static int lines_count(char *str);
 
 
 #endif // TLE_DOWNLOAD_H

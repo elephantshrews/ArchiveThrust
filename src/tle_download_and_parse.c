@@ -11,101 +11,87 @@
 /* Dependencies */
 #include "tle_download_and_parse.h"
 
+#define KEY_BUFFER_SIZE 250
+#define LOGIN_URL "https://www.space-track.org/ajaxauth/login"
+#define EMPTY_KEY_FORMAT "identity=%s&password=%s"
 
-tlePermanentStorage tleDownloadParse() 
+
+int login(char* username, char* password)
 {
-        /* 
-         * Function Description:
-         *
-         * Download TLE Archive from Space-Track.org
-         * and store the parsed data in the data struct
-         * tlePermanentStorage, which contains a list of
-         * tles, which is yet another struct contaning 
-         * all the orbital elements and the number of tles. These structs
-         * are defined in main.h
-        */
+        // Construct the key for login
+    	char key[KEY_BUFFER_SIZE];
+    	snprintf(key, sizeof(key), EMPTY_KEY_FORMAT,  username, password);
 
+        char *login_url = "https://www.space-track.org/ajaxauth/login";
 
-
-        // URL content gets temporarily stored as a string
-    	tleTemporaryStorage tletemporarystorage;
-	    tletemporarystorage.str = malloc(1); 
-	    tletemporarystorage.size = 0;
-
-
-	    _tleDownload(&tletemporarystorage);
-	    printf("Finished tle download and parsing \n");
-		
-        // String gets disassembled into the indivual TLEs.
-        // These invidual TLEs get stored in struct and all of
-        // them together are stored in the list of TLEs
-        // of tlePermanantStorage
-	    tlePermanentStorage tlepermanentstorage;
-        int tleNumber = _linesCount(tletemporarystorage.str) / 2;
-	    tlepermanentstorage.nmemb = tleNumber; 
-	    tlepermanentstorage.tles = (TLE *) malloc(tleNumber * sizeof(TLE));
-	    _tleParse(&tletemporarystorage, &tlepermanentstorage); 
-
-        // Cleanup
-        free(tletemporarystorage.str);
-        tletemporarystorage.str = NULL;    
-	    return tlepermanentstorage;
-}
-
-
-int _tleDownload(tleTemporaryStorage* tletemporarystorage)
-{
-        /* Initialize libCurl */
-        curl_global_init(CURL_GLOBAL_ALL);
-	    CURL* curl = curl_easy_init();
-	    CURLcode res;
-	   
-       if(!curl){
-	    	fprintf(stderr, "Initialization fails\n");
-	    	return -1;
-	    }
+        // Initialize libCurl 
+        if (curl_global_init(CURL_GLOBAL_ALL) != 0) {
+            fprintf(stderr, "Global Initialization fails\n");
+            return -1;
+        }
         
-        /* Login to Space-Track */
-        char usrname[100];
-        printf("Please Enter Space-Track Username: ");
-        scanf("%s", usrname);
-        char password[100];
-        printf("Please enter Space-Track Password: ");
-        scanf("%s", password);
+	    CURL* curl = curl_easy_init();
+        if (!curl) {
+            fprintf(stderr, "cURL Initialization fails\n");
+            cleanup_curl(curl);
+            return -1;
+        }
 
-        char *login_url = "https://www.space-track.org/ajaxauth/login";  
-        char *emptykey = "identity=%s&password=%s"; 
-    	char key[250];
-    	snprintf(key, sizeof(key), emptykey,  usrname, password);
 
         // Set options for libcurl and perform PUSH request
 	    curl_easy_setopt(curl, CURLOPT_URL, login_url); 
 	    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, key);
 	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	    curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
-	    res = curl_easy_perform(curl);
-	    if (res != CURLE_OK) { 
+       
+
+       // Perform the request
+	    CURLcode res = curl_easy_perform(curl);
+	  
+        // Check if request was successful 
+        if (res != CURLE_OK) { 
             fprintf(stderr, "%s \n", curl_easy_strerror(res));
+            cleanup_curl(curl);
+            return -1;
     	}	
+
+        cleanup_curl(curl);
+        printf("Login successful\n");
+    	return 0; // Succesfull login
+}
+
+int download(char* norad_id, void* tlestor_init)
+{
+        TleStor* tlestor = (TleStor *) tlestor_init;
+  
+        // Create temporary storage for TLEs
+        TleTemp* tletemp = malloc(sizeof(TleTemp));
+        tletemp->str = malloc(1);
+        tletemp->size = 0;
 
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
-        const char *start_time = "2010-01-01";
-    	const char *end_time   = "2015-08-04";
+        char *start = "2010-01-01";
+    	char *end   = "2015-08-04";
 
-	    int NORAD_ID;
-    	printf("Please enter NORAD ID: ");
-    	scanf("%d", &NORAD_ID);
     	
     	static const char *raw_url =	
         "https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/%d/orderby/TLE_LINE1%%20ASC/EPOCH/%s--%s/format/tle";
-        char url[200];
-    	snprintf(url, sizeof(url), raw_url, NORAD_ID, start_time, end_time);
+        char url[400];
+    	snprintf(url, sizeof(url), raw_url, norad_id, start, end);
 	
 
+        /* Initialize libCurl */
+        curl_global_init(CURL_GLOBAL_ALL);
+	    CURL* curl = curl_easy_init();
+	    CURLcode res;
+        if(!curl){
+	    	fprintf(stderr, "Initialization fails\n");
+	    	return -1;
+	    }
 	    curl_easy_setopt(curl, CURLOPT_URL, url);
-	    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, _tleWrite);
-	    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) tletemporarystorage);
+	    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write);
+	    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) tletemp);
 	    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 	    printf("Starting tle download and parsing ...\n");
 	    res = curl_easy_perform(curl);
@@ -117,30 +103,61 @@ int _tleDownload(tleTemporaryStorage* tletemporarystorage)
         /* Clean up */
     	curl_easy_cleanup(curl);
     	curl_global_cleanup();
+        
+        // String gets disassembled into the indivual TLEs.
+        // These invidual TLEs get stored in struct and all of
+        // them together are stored in the list of TLEs
+        // of tlePermanantStorage
+        
+        int tlenumber = lines_count(tletemp->str) / 2;
+	    tlestor->nmemb = tlenumber; 
+	    tlestor->tles = (TLE *) malloc(tlenumber * sizeof(TLE));
+	    tle_parse(tletemp, tlestor); 
+
+        // Cleanup
+        free(tletemp->str);
+        tletemp->str = NULL;    
+
     	return 0;
 }
 
 
-size_t _tleWrite(void *contents, size_t size, size_t nmemb, void *userp)
+void* create_permanent_storage(void)
+{
+        // Allocate memory on the heap
+        TleStor* tlestor_init = malloc(sizeof(TleStor));
+        // Check if memory allocation was successful
+        if (tlestor_init == NULL){
+            fprintf(stderr, "Memory allocation failed\n");
+            return NULL; // Return NULL to indicate failure
+        }
+       
+        tlestor_init->tles = NULL;
+        tlestor_init->nmemb = 0;
+
+        return (void *) tlestor_init;
+}
+
+static size_t write(void *cont, size_t size, size_t nmemb, void *userp)
 {
         // Get pointer to the temporary storage           
-    	tleTemporaryStorage* tletemporarystorage = (tleTemporaryStorage *)userp;
+    	TleTemp* tletemp = (TleTemp *)userp;
     
         size_t strsize = size * nmemb;
-    	char *ptr = realloc(tletemporarystorage->str, tletemporarystorage->size + strsize + 1);
+    	char *ptr = realloc(tletemp->str, tletemp->size + strsize + 1);
     	if (ptr == NULL) {
     		printf("not enough memory (realloc returned NULL)\n");
     		return 0;
     	}
 
-    	tletemporarystorage->str = ptr;
-        memcpy(&(tletemporarystorage->str[tletemporarystorage->size]), contents, strsize);
-        tletemporarystorage->size += strsize;
-	    tletemporarystorage->str[tletemporarystorage->size] = 0; 
+    	tletemp->str = ptr;
+        memcpy(&(tletemp->str[tletemp->size]), cont, strsize);
+        tletemp->size += strsize;
+	    tletemp->str[tletemp->size] = 0; 
 	    return strsize;
 }
 
-void _tleLineOneParse(const char *line, tleLineOne *tle1) 
+static void tle_line_one_parse(const char *line, tleLineOne *tle1) 
 { 
        char launchPiece[4] = {0};
        sscanf(line, "%1d%5d%1c%2d%3d%3s%2d%12f%10f%8f%9f%1d%4d%1d",
@@ -161,7 +178,7 @@ void _tleLineOneParse(const char *line, tleLineOne *tle1)
         strcpy(tle1->launchPiece, launchPiece);
 }
 
-void _tleLineTwoParse(const char *line, tleLineTwo *tle2) 
+static void tle_line_two_parse(const char *line, tleLineTwo *tle2) 
 {
         int eccentricityRaw;
         sscanf(line, "%1d%5d%9f%9f%7d%9f%9f%9f%5d%1d",
@@ -179,10 +196,10 @@ void _tleLineTwoParse(const char *line, tleLineTwo *tle2)
 }
 
 
-int _tleParse(tleTemporaryStorage *tletemporarystorage, tlePermanentStorage* tlepermanentstorage){
+static int tle_parse(TleTemp *tletemp, TleStor* tlestor){
 	
 	    // Open a memory stream for reading
-	    FILE *stream = fmemopen(tletemporarystorage->str, tletemporarystorage->size, "r");
+	    FILE *stream = fmemopen(tletemp->str, tletemp->size, "r");
 	    if (stream == NULL) {
 	    	perror("fmemopen");
 	    	return 1;
@@ -197,10 +214,10 @@ int _tleParse(tleTemporaryStorage *tletemporarystorage, tlePermanentStorage* tle
 	    	line[strcspn(line, "\n")] = '\0';
 
 	    	if (count % 2 == 0){
-	    		_tleLineOneParse(line, &(tlepermanentstorage->tles[tle_nmb].line1));
+	    		tle_line_one_parse(line, &(tlestor->tles[tle_nmb].line1));
 	    	}
 	    	else if (count % 2 == 1){
-	    		_tleLineTwoParse(line, &(tlepermanentstorage->tles[tle_nmb].line2));
+	    		tle_line_two_parse(line, &(tlestor->tles[tle_nmb].line2));
 	    		tle_nmb ++;		
 	    	}
     
@@ -212,7 +229,14 @@ int _tleParse(tleTemporaryStorage *tletemporarystorage, tlePermanentStorage* tle
     	return 0;
 }
 
-int _linesCount(char *str)
+static void cleanup_curl(CURL* curl)
+{
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+}
+
+
+static int lines_count(char *str)
 {
 	    int lines = 0;
 	    for (int i = 0; str[i]; i++) {
