@@ -26,7 +26,7 @@ def create_permanent_storage():
         raise RuntimeError("Failed to create permanent storage")
     return ptr 
 
-lib.download.argtypes = [ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p]
+lib.download.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
 lib.download.restype = ctypes.c_int
 def download(norad_id, tlestor):
     if tlestor is None:
