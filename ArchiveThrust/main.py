@@ -1,5 +1,4 @@
-from modules import *
-
+from .modules import *
 
 def main():
     username = "m.snoeken@campus.tu-berlin.de"
@@ -9,3 +8,5 @@ def main():
     login(username,password)
     perm_stor = create_permanent_storage()
     download(norad_id,perm_stor)
+
+main()

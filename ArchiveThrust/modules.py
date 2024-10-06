@@ -1,13 +1,15 @@
+from pathlib import Path
+import sysconfig
 import ctypes
-import os
 
 
-# Load the shared library
-if os.name == "posix":
-    lib = ctypes.CDLL("../ArchiveThrust.so") # Linux/MacOS
-else:
-    lib = ctypes.CDLL("../ArchiveThrust.dll")   # Windows
+# We need a bit of gymnastics to retrive the shared 
+# library path
+thisfolder = Path(__file__).parent.absolute()
+suffix = sysconfig.get_config_var('EXT_SUFFIX')
 
+# Load compiled shared library
+lib = ctypes.CDLL(thisfolder.joinpath('ArchiveThrust' + suffix))
 
 # login
 # Declare the argument types and return types for the C function
