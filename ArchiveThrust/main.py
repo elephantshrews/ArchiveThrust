@@ -9,4 +9,3 @@ def main():
     perm_stor = create_permanent_storage()
     download(norad_id,perm_stor)
 
-main()
