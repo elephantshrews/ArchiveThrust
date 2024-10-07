@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=24", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ArchiveThrust"
+version = "1.0.0"
+
+[project.scripts]
+ArchiveThrust = "ArchiveThrust.main:main"
