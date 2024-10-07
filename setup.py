@@ -5,9 +5,9 @@ import sys
 
 ArchiveThrust_extension = Extension(
     name                = "ArchiveThrust.ArchiveThrust",                      
-    sources             = ["ArchiveThrust/tle_download_and_parse.c",    
-                           "ArchiveThrust/detect_maneuvers.c"],
-    include_dirs        = ["include"],                   
+    sources             = ["ArchiveThrust/src/tle_download_and_parse.c",    
+                           "ArchiveThrust/src/detect_maneuvers.c"],
+    include_dirs        = ["ArchiveThrust/include"],                   
     libraries           = ["curl", "m", "gsl", "cblas"],    
     extra_compile_args  = ["-Wall", "-Wextra", "-fPIC"], 
     extra_link_args     = ["-shared"] if sys.platform == "win32" else ["-shared", "-Wl,-soname,ArchiveThrust.so"],  
