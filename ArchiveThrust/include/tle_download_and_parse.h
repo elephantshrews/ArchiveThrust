@@ -28,6 +28,7 @@ void* create_temporary_storage(void);
 void* create_permanent_storage(void);
 
 static size_t write(void *cont, size_t size, size_t nmemb, void *userp);
+static size_t write_l(void* cont, size_t size, size_t nmemb, void* userp);
 static int tle_parse(TleTemp *tletemp, TleStor *tlestor);
 static void tle_line_one_parse(const char *line, tleLineOne *tle1); 
 static void tle_line_two_parse(const char *line, tleLineTwo *tle2);
