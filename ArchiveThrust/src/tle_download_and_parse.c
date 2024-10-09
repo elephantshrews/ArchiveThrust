@@ -11,7 +11,7 @@
 /* Dependencies */
 #include "tle_download_and_parse.h"
 
-#define KEY_BUFFER_SIZE 250
+#define KEY_BUFFER_SIZE 400 
 #define LOGIN_URL "https://www.space-track.org/ajaxauth/login"
 #define EMPTY_KEY_FORMAT "identity=%s&password=%s"
 
@@ -20,7 +20,7 @@ int login(char* username, char* password)
 {
         // Construct the key for login
     	char key[KEY_BUFFER_SIZE];
-    	snprintf(key, sizeof(key), EMPTY_KEY_FORMAT,  username, password);
+    	snprintf(key, sizeof(key), EMPTY_KEY_FORMAT, username, password);
 
         char *login_url = "https://www.space-track.org/ajaxauth/login";
 
@@ -37,13 +37,19 @@ int login(char* username, char* password)
             return -1;
         }
 
+        // Response buffer to store server's reply
+        char response[4096] = {0};
 
         // Set options for libcurl and perform PUSH request
 	    curl_easy_setopt(curl, CURLOPT_URL, login_url); 
 	    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, key);
 	    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-	    curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
-       
+       	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, "cookies.txt");
+
+
+        // set callback to capture servers reponse 
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_l);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, response);
 
        // Perform the request
 	    CURLcode res = curl_easy_perform(curl);
@@ -56,7 +62,6 @@ int login(char* username, char* password)
     	}	
 
         cleanup_curl(curl);
-        printf("Login successful\n");
     	return 0; // Succesfull login
 }
 
@@ -65,22 +70,21 @@ int download(char* norad_id, void* tlestor_init)
         TleStor* tlestor = (TleStor *) tlestor_init;
   
         // Create temporary storage for TLEs
-        TleTemp* tletemp = malloc(sizeof(TleTemp));
-        tletemp->str = malloc(1);
-        tletemp->size = 0;
+        TleTemp tletemp;
+        tletemp.str = malloc(1);
+        tletemp.size = 0;
 
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
         char *start = "2010-01-01";
-    	char *end   = "2015-08-04";
+    	char *end   = "2024-01-01";
 
     	
     	static const char *raw_url =	
-        "https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/%d/orderby/TLE_LINE1%%20ASC/EPOCH/%s--%s/format/tle";
+        "https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/%s/orderby/TLE_LINE1%%20ASC/EPOCH/%s--%s/format/tle";
         char url[400];
     	snprintf(url, sizeof(url), raw_url, norad_id, start, end);
 	
-
         /* Initialize libCurl */
         curl_global_init(CURL_GLOBAL_ALL);
 	    CURL* curl = curl_easy_init();
@@ -91,9 +95,10 @@ int download(char* norad_id, void* tlestor_init)
 	    }
 	    curl_easy_setopt(curl, CURLOPT_URL, url);
 	    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write);
-	    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) tletemp);
+	    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &tletemp);
 	    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-	    printf("Starting tle download and parsing ...\n");
+       	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "cookies.txt");
+	    printf("Downloading data . . .\n");
 	    res = curl_easy_perform(curl);
 
 	    if (res != CURLE_OK){
@@ -103,22 +108,33 @@ int download(char* norad_id, void* tlestor_init)
         /* Clean up */
     	curl_easy_cleanup(curl);
     	curl_global_cleanup();
-        
         // String gets disassembled into the indivual TLEs.
         // These invidual TLEs get stored in struct and all of
         // them together are stored in the list of TLEs
         // of tlePermanantStorage
         
-        int tlenumber = lines_count(tletemp->str) / 2;
+        int tlenumber = lines_count(tletemp.str) / 2;
 	    tlestor->nmemb = tlenumber; 
 	    tlestor->tles = (TLE *) malloc(tlenumber * sizeof(TLE));
-	    tle_parse(tletemp, tlestor); 
+	    tle_parse(&tletemp, tlestor); 
 
+
+
+        if (tlenumber == 0) {
+            fprintf(stderr, "Error: Please check login credentials and NORAD ID. \n");
+            return -1;
+        }
         // Cleanup
-        free(tletemp->str);
-        tletemp->str = NULL;    
+        free(tletemp.str);
+        tletemp.str = NULL;    
+
+
+        // Remove the cookie file
+        remove("cookies.txt");
 
     	return 0;
+
+
 }
 
 
@@ -155,6 +171,13 @@ static size_t write(void *cont, size_t size, size_t nmemb, void *userp)
         tletemp->size += strsize;
 	    tletemp->str[tletemp->size] = 0; 
 	    return strsize;
+}
+
+// Write callback for login functio
+static size_t write_l(void* cont, size_t size, size_t nmemb, void* userp){
+        size_t total_size = size * nmemb;
+        strncat(userp, cont, total_size); // Append to userp buffer
+        return total_size;
 }
 
 static void tle_line_one_parse(const char *line, tleLineOne *tle1) 
