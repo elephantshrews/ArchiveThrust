@@ -62,7 +62,6 @@ int login(char* username, char* password)
     	}	
 
         cleanup_curl(curl);
-        printf("Login successful\n");
     	return 0; // Succesfull login
 }
 
@@ -99,7 +98,7 @@ int download(char* norad_id, void* tlestor_init)
 	    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &tletemp);
 	    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
        	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "cookies.txt");
-	    printf("Starting tle download and parsing ...\n");
+	    printf("Downloading data . . .\n");
 	    res = curl_easy_perform(curl);
 
 	    if (res != CURLE_OK){
