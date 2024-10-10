@@ -1,14 +1,9 @@
 from .modules import *
 
-try:
-    import tkinter as tk
-except ImportError:
-    raise ImportError("Tkinter is required to run this application. Please install it using your system package manager.")
-
+import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 
 # Function to create a plot for each dataset
 
@@ -16,9 +11,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 def create_individual_plot(root, x, y, title, row, col):
     fig, ax = plt.subplots()
     ax.plot(x, y)
-    ax.set_xlabel('Day')
-    ax.set_ylabel('Confidence Level')
-    ax.set_title("Maneuvers")
+    ax.set_xlabel('X values')
+    ax.set_ylabel('Y values')
+    ax.set_title(title)
 
     # Embed plot into the Tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
@@ -42,15 +37,10 @@ def main():
         exit()
     
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
-    maneuver_array_type = Maneuver * 3000  # Assuming you want space for 100 maneuvers
-    maneuvers = maneuver_array_type()
-    
-    detect_maneuvers(perm_stor, maneuvers)
-    print("this is the maneuver fluctuation")
-    print(maneuvers[0].fluctuations[0])
-    
-    days = [maneuvers[i].startEpochDay for i in range(len(maneuvers))]
-    cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
+    maneuvers = Maneuver()
+    detect_maneuvers(perm_stor, ctypes.byref(maneuvers))
+    print("This is the fluctuation: {maneuvers.fluctuation}")
+
 
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]
@@ -67,22 +57,14 @@ def main():
     root.title("ArhiveThrust")
 
     # Create plots for A, B, C, and D
-    create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
-    #create_individual_plot(root, x, A, "Plot A", 0, 0)
-    #create_individual_plot(root, x, B, "Plot B", 0, 1)
-    #create_individual_plot(root, x, C, "Plot C", 1, 0)
-    #create_individual_plot(root, x, D, "Plot D", 1, 1)
+    create_individual_plot(root, x, A, "Plot A", 0, 0)
+    create_individual_plot(root, x, B, "Plot B", 0, 1)
+    create_individual_plot(root, x, C, "Plot C", 1, 0)
+    create_individual_plot(root, x, D, "Plot D", 1, 1)
 
     # Display the text label below the plots
-
     label = ttk.Label(root, text=text)
     label.grid(row=2, column=0, columnspan=2, pady=10)
-    
-    def on_closing():
-        root.destroy()
-
-    # Set the protocol for the window close event
-    root.protocol("WM_DELETE_WINDOW", on_closing)
 
     # Start the Tkinter main loop
     root.mainloop()
@@ -90,4 +72,3 @@ def main():
 # Uncomment these two lines if you want to run the script directly
 # if __name__ == "__main__":
 #     main()
-

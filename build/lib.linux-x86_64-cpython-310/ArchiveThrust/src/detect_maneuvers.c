@@ -50,6 +50,7 @@ double _findAvFluct(const double *data, const double *fittedData, int Windowsize
  * The gsl library then gives the coeffitients of the fitted polynomial
 */
 void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients, int poly_degree) {
+    printf("Starting fitting\n");
     // Step 1: Set up the matrices and vectors needed by GSL
     gsl_matrix *X = gsl_matrix_alloc(windowSize, poly_degree + 1);
     gsl_vector *y = gsl_vector_alloc(windowSize);
@@ -82,10 +83,12 @@ void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitPara
     gsl_vector_free(y);
     gsl_vector_free(c);
     gsl_matrix_free(cov);
+    printf("Finished fitting\n");
 }
 
 
 void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double *normalizedWindow, double *meanValue){
+    printf("Starting normalization\n");
     double value = 0.;
     for (int i = 0; i< windowSize; i++){
         value += windowOrbitalParams[i];
@@ -97,6 +100,7 @@ void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double 
         normalizedWindow[i] = windowOrbitalParams[i]/value;
     }
 
+    printf("Created normalized Window\n");
 }
 
 
@@ -234,6 +238,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                     epochDaysWindow[j] += 365 * (epochYearsWindow[j] - epochYearsWindow[0]);
                 }
             }
+            printf("1\n");
             createNormalizedWindow(windowOrbitParams, windowSize[k], NormalizedWindow, &meanValue);
 
             // Optimize polynomial degree for this parameter
@@ -272,17 +277,21 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
             }
             // Calculate normalized deviation
             double deviation = fabs(params[k][i]/ meanValue - fittedValues[windowSize[k] - 1]);
+            printf("This is the deviation: %f\n", deviation);
             double deviationNormalized = deviation / AvFluct;
+            printf("This is the normalized deviation: %f\n", deviationNormalized);
 
             // Detect potential maneuver
             if (deviationNormalized > sigmaThreshold) {
                 //printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
                 if (maneuverCount == 0) {
+                    printf("This is the maneuvercount %d", maneuverCount);
                     Maneuver newManeuver = {epochDays[maneuverCount], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0},-1,-0.1};
 
                     newManeuver.affectedParams[k] = true;
                     newManeuver.fluctuations[k] = deviationNormalized;
                     detectedManeuvers[maneuverCount] = newManeuver;
+                    printf("This is the flucutation: %f\n ", detectedManeuvers[maneuverCount].fluctuations[k]);
                     maneuverCount++;
                 }
                 else {

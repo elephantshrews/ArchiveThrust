@@ -1,10 +1,6 @@
 from .modules import *
 
-try:
-    import tkinter as tk
-except ImportError:
-    raise ImportError("Tkinter is required to run this application. Please install it using your system package manager.")
-
+import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -15,7 +11,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 def create_individual_plot(root, x, y, title, row, col):
     fig, ax = plt.subplots()
-    ax.plot(x, y)
+    ax.scatter(x, y)
     ax.set_xlabel('Day')
     ax.set_ylabel('Confidence Level')
     ax.set_title("Maneuvers")
@@ -74,15 +70,8 @@ def main():
     #create_individual_plot(root, x, D, "Plot D", 1, 1)
 
     # Display the text label below the plots
-
-    label = ttk.Label(root, text=text)
-    label.grid(row=2, column=0, columnspan=2, pady=10)
-    
-    def on_closing():
-        root.destroy()
-
-    # Set the protocol for the window close event
-    root.protocol("WM_DELETE_WINDOW", on_closing)
+    #label = ttk.Label(root, text=text)
+    #label.grid(row=2, column=0, columnspan=2, pady=10)
 
     # Start the Tkinter main loop
     root.mainloop()
@@ -90,4 +79,3 @@ def main():
 # Uncomment these two lines if you want to run the script directly
 # if __name__ == "__main__":
 #     main()
-
