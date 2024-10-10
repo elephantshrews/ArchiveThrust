@@ -2,7 +2,7 @@
 CC      := gcc
 
 # Compiler flags
-CFLAGS  := -Iinclude -Wall -Wextra 
+CFLAGS  := -Iinclude -Wall -Wextra
 LIBS    := -lcurl -lm -lgsl 
 
 # Folders for installing
