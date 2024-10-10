@@ -50,6 +50,7 @@ double _findAvFluct(const double *data, const double *fittedData, int Windowsize
  * The gsl library then gives the coeffitients of the fitted polynomial
 */
 void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients, int poly_degree) {
+    printf("Starting fitting\n");
     // Step 1: Set up the matrices and vectors needed by GSL
     gsl_matrix *X = gsl_matrix_alloc(windowSize, poly_degree + 1);
     gsl_vector *y = gsl_vector_alloc(windowSize);
@@ -82,7 +83,26 @@ void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitPara
     gsl_vector_free(y);
     gsl_vector_free(c);
     gsl_matrix_free(cov);
+    printf("Finished fitting\n");
 }
+
+
+void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double *normalizedWindow, double *meanValue){
+    printf("Starting normalization\n");
+    double value = 0.;
+    for (int i = 0; i< windowSize; i++){
+        value += windowOrbitalParams[i];
+    }
+    
+    value /= windowSize;
+    *meanValue = value;
+    for (int i = 0; i< windowSize; i++) {
+        normalizedWindow[i] = windowOrbitalParams[i]/value;
+    }
+
+    printf("Created normalized Window\n");
+}
+
 
 void classifyManeuver(Maneuver *maneuver){
     if ((maneuver->affectedParams[0]) && (maneuver->affectedParams[1] || maneuver->affectedParams[4])) {
@@ -202,7 +222,8 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
             double *fittedValues = (double *)malloc((windowSize[k] + 1) * sizeof(double));
             double beginningDay = epochDays[i - windowSize[k]];
             double *epochYearsWindow = (double *)malloc((windowSize[k] + 1) * sizeof(double));
-            //double mean_value;
+            double *NormalizedWindow = (double *)malloc(windowSize[k] * sizeof(double));
+            double meanValue = 0.0 ;
             // Fill the window arrays
             for (int j = 0; j < windowSize[k]; j++) {
                 windowOrbitParams[j] = params[k][i - windowSize[k] + j];
@@ -217,6 +238,8 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                     epochDaysWindow[j] += 365 * (epochYearsWindow[j] - epochYearsWindow[0]);
                 }
             }
+            printf("1\n");
+            createNormalizedWindow(windowOrbitParams, windowSize[k], NormalizedWindow, &meanValue);
 
             // Optimize polynomial degree for this parameter
             double AvFluct = 0;
@@ -225,7 +248,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 memset(fittedValues, 0, (windowSize[k] + 1) * sizeof(double));
 
                 // Fit polynomial to data
-                _fitFadingMemoryPolynomial(epochDaysWindow, windowOrbitParams, windowSize[k], coefficients, pol_deg[k]);
+                _fitFadingMemoryPolynomial(epochDaysWindow, NormalizedWindow, windowSize[k], coefficients, pol_deg[k]);
 
                 epochYearsWindow[windowSize[k]] = epochYears[i];
                 epochDaysWindow[windowSize[k]] = epochDays[i] - beginningDay + 366 * (epochYearsWindow[windowSize[k]] - epochYearsWindow[0]);
@@ -237,7 +260,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                     }
                 }
 
-                AvFluct = _findAvFluct(windowOrbitParams, fittedValues, windowSize[k]);
+                AvFluct = _findAvFluct(NormalizedWindow, fittedValues, windowSize[k]);
 
                 // Stop if fluctuation is low enough or max polynomial degree is reached
                 if (AvFluct < 5.e-4 || pol_deg[k] == maxPolyDegree) {
@@ -253,8 +276,10 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 windowSize[k]--;
             }
             // Calculate normalized deviation
-            double deviation = fabs(params[k][i] - fittedValues[windowSize[k] - 1]);
+            double deviation = fabs(params[k][i]/ meanValue - fittedValues[windowSize[k] - 1]);
+            printf("This is the deviation: %f\n", deviation);
             double deviationNormalized = deviation / AvFluct;
+            printf("This is the normalized deviation: %f\n", deviationNormalized);
 
             // Detect potential maneuver
             if (deviationNormalized > sigmaThreshold) {
@@ -273,7 +298,6 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 // Check if this maneuver is close to a previous maneuver
                     bool maneuverGrouped = false;
                     if (isCloseEnough(epochDays[i], detectedManeuvers[maneuverCount].endEpochDay, maneuverThreshold)) {
-                        printf("This is the maneuvercount for grouped: %d\n" , maneuverCount);
                             // Group the current detection into this maneuver
                         if (!detectedManeuvers[maneuverCount].affectedParams[k]){
                         detectedManeuvers[maneuverCount].endEpochDay = epochDays[i];
@@ -286,10 +310,10 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 
                     // If not grouped, create a new maneuver entry
                     if (!maneuverGrouped) {
-                        printf("This is the maneuvercount for non grouped: %d\n" , maneuverCount);
                         Maneuver newManeuver = {epochDays[i], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0}, -1, -0.1};
                         newManeuver.affectedParams[k] = true;
                         newManeuver.fluctuations[k] = deviationNormalized;
+                        newManeuver.confidenceLevel = log(deviationNormalized)/5;
                         detectedManeuvers[maneuverCount++] = newManeuver;
                     }
                 }

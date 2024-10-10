@@ -12,9 +12,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 def create_individual_plot(root, x, y, title, row, col):
     fig, ax = plt.subplots()
     ax.plot(x, y)
-    ax.set_xlabel('X values')
-    ax.set_ylabel('Y values')
-    ax.set_title(title)
+    ax.set_xlabel('Day')
+    ax.set_ylabel('Confidence Level')
+    ax.set_title("Maneuvers")
 
     # Embed plot into the Tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
@@ -65,13 +65,13 @@ def main():
     # Create plots for A, B, C, and D
     create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
     #create_individual_plot(root, x, A, "Plot A", 0, 0)
-    create_individual_plot(root, x, B, "Plot B", 0, 1)
-    create_individual_plot(root, x, C, "Plot C", 1, 0)
-    create_individual_plot(root, x, D, "Plot D", 1, 1)
+    #create_individual_plot(root, x, B, "Plot B", 0, 1)
+    #create_individual_plot(root, x, C, "Plot C", 1, 0)
+    #create_individual_plot(root, x, D, "Plot D", 1, 1)
 
     # Display the text label below the plots
-    label = ttk.Label(root, text=text)
-    label.grid(row=2, column=0, columnspan=2, pady=10)
+    #label = ttk.Label(root, text=text)
+    #label.grid(row=2, column=0, columnspan=2, pady=10)
 
     # Start the Tkinter main loop
     root.mainloop()
