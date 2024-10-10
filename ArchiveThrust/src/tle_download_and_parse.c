@@ -76,8 +76,15 @@ int download(char* norad_id, void* tlestor_init)
 
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
-        char *start = "2010-01-01";
-    	char *end   = "2012-01-01";
+        char *start = "2020-01-01";
+
+        // Get the current time
+        time_t now = time(NULL);
+        struct tm *tm_now = localtime(&now);
+        // Create a st
+        char end[11]; 
+        // Format the date into the string
+        strftime(end, sizeof(end), "%Y-%m-%d", tm_now);
 
     	
     	static const char *raw_url =	
