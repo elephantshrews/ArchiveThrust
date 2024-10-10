@@ -258,12 +258,16 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 
             // Detect potential maneuver
             if (deviationNormalized > sigmaThreshold) {
-                printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
+                //printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
                 if (maneuverCount == 0) {
+                    printf("This is the maneuvercount %d", maneuverCount);
                     Maneuver newManeuver = {epochDays[maneuverCount], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0},-1,-0.1};
+
                     newManeuver.affectedParams[k] = true;
                     newManeuver.fluctuations[k] = deviationNormalized;
                     detectedManeuvers[maneuverCount] = newManeuver;
+                    printf("This is the flucutation: %f\n ", detectedManeuvers[maneuverCount].fluctuations[k]);
+                    maneuverCount++;
                 }
                 else {
                 // Check if this maneuver is close to a previous maneuver

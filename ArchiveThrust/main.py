@@ -5,6 +5,7 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+
 # Function to create a plot for each dataset
 
 
@@ -39,8 +40,8 @@ def main():
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
     maneuvers = Maneuver()
     detect_maneuvers(perm_stor, ctypes.byref(maneuvers))
-    print("This is the fluctuation: {maneuvers.fluctuation}")
-
+    print("This is the fluctuation!!: {maneuvers[0].fluctuations[1]}")
+    
 
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]

@@ -62,5 +62,3 @@ void detectManeuvers(const TleStor *tleSt, Maneuver *detectedManeuvers);
 
 
 #endif // MANEUVERS_H
-
-
