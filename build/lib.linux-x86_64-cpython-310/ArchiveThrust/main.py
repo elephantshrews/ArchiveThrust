@@ -11,7 +11,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 def create_individual_plot(root, x, y, title, row, col):
     fig, ax = plt.subplots()
-    ax.plot(x, y)
+    ax.scatter(x, y)
     ax.set_xlabel('Day')
     ax.set_ylabel('Confidence Level')
     ax.set_title("Maneuvers")
