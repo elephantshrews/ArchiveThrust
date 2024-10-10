@@ -38,10 +38,15 @@ def main():
         exit()
     
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
-    maneuvers = Maneuver()
-    detect_maneuvers(perm_stor, ctypes.byref(maneuvers))
-    print("This is the fluctuation!!: {maneuvers[0].fluctuations[1]}")
+    maneuver_array_type = Maneuver * 3000  # Assuming you want space for 100 maneuvers
+    maneuvers = maneuver_array_type()
     
+    detect_maneuvers(perm_stor, maneuvers)
+    print("this is the maneuver fluctuation")
+    print(maneuvers[0].fluctuations[0])
+    
+    days = [maneuvers[i].startEpochDay for i in range(len(maneuvers))]
+    cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
 
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]
@@ -58,7 +63,8 @@ def main():
     root.title("ArhiveThrust")
 
     # Create plots for A, B, C, and D
-    create_individual_plot(root, x, A, "Plot A", 0, 0)
+    create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
+    #create_individual_plot(root, x, A, "Plot A", 0, 0)
     create_individual_plot(root, x, B, "Plot B", 0, 1)
     create_individual_plot(root, x, C, "Plot C", 1, 0)
     create_individual_plot(root, x, D, "Plot D", 1, 1)
@@ -68,7 +74,7 @@ def main():
     label.grid(row=2, column=0, columnspan=2, pady=10)
 
     # Start the Tkinter main loop
-    root.mainloop()
+    #root.mainloop()
 
 # Uncomment these two lines if you want to run the script directly
 # if __name__ == "__main__":

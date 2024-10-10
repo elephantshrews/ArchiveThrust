@@ -11,6 +11,7 @@
 
 #include "detect_maneuvers.h"
 
+double sigmathresholds[] = {7,7, 20,500, 10000,500};
 //Place orbital parameters from a list of TLEs in a tle storage into seperate arrays
 void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities, double *argPerigee, double *raan, double *meanAnomaly) {
     int nmemb = tle_st->nmemb;
@@ -85,7 +86,7 @@ void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitPara
 
 void classifyManeuver(Maneuver *maneuver){
     if ((maneuver->affectedParams[0]) && (maneuver->affectedParams[1] || maneuver->affectedParams[4])) {
-        if (maneuver->fluctuations[0]>2*sigmaThreshold && (maneuver->fluctuations[1]>2*sigmaThreshold || maneuver->fluctuations[4]>2*sigmaThreshold)) {
+        if (maneuver->fluctuations[0]>2*sigmathresholds[0] && (maneuver->fluctuations[1]>2*sigmathresholds[1] || maneuver->fluctuations[4]>2*sigmathresholds[4])) {
             maneuver->maneuverType[1] = STATION_KEEPING;
             maneuver->maneuverType[0] = OUT_OF_PLANE;
         }
@@ -193,8 +194,8 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
     int maneuverCount = 0;
 
     for (int i = INITIAL_WINDOW_SIZE; i < nmemb - 1; i++) {
-        for (int k = 0; k < 6; k++) {  // Loop through each parameter
-
+        for (int k = 0; k < 1; k++) {  // Loop through each parameter
+            double sigmaThreshold = sigmathresholds[k];
             // Dynamically allocate memory for the window and fitted values
             double *windowOrbitParams = (double *)malloc(windowSize[k] * sizeof(double));
             double *epochDaysWindow = (double *)malloc((windowSize[k] + 1) * sizeof(double));
@@ -251,7 +252,6 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
             } else if (AvFluct > 5.e-4 && windowSize[k] > minWindowSize) {
                 windowSize[k]--;
             }
-
             // Calculate normalized deviation
             double deviation = fabs(params[k][i] - fittedValues[windowSize[k] - 1]);
             double deviationNormalized = deviation / AvFluct;
@@ -273,6 +273,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 // Check if this maneuver is close to a previous maneuver
                     bool maneuverGrouped = false;
                     if (isCloseEnough(epochDays[i], detectedManeuvers[maneuverCount].endEpochDay, maneuverThreshold)) {
+                        printf("This is the maneuvercount for grouped: %d\n" , maneuverCount);
                             // Group the current detection into this maneuver
                         if (!detectedManeuvers[maneuverCount].affectedParams[k]){
                         detectedManeuvers[maneuverCount].endEpochDay = epochDays[i];
@@ -285,6 +286,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 
                     // If not grouped, create a new maneuver entry
                     if (!maneuverGrouped) {
+                        printf("This is the maneuvercount for non grouped: %d\n" , maneuverCount);
                         Maneuver newManeuver = {epochDays[i], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0}, -1, -0.1};
                         newManeuver.affectedParams[k] = true;
                         newManeuver.fluctuations[k] = deviationNormalized;

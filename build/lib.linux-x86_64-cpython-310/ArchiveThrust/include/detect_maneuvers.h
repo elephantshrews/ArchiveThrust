@@ -29,7 +29,7 @@
 #define MAX_WINDOW_SIZE 15
 #define INITIAL_WINDOW_SIZE 7
 #define WindowSize 7
-#define sigmaThreshold   15 //15
+//#define sigmaThreshold   15 //15
 #define MAX_POLY_DEGREE 2
 #define POLY_DEGREE 1
 #define FADE_FACTOR 0.9

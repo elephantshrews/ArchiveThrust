@@ -77,7 +77,7 @@ int download(char* norad_id, void* tlestor_init)
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
         char *start = "2010-01-01";
-    	char *end   = "2024-01-01";
+    	char *end   = "2012-01-01";
 
     	
     	static const char *raw_url =	
