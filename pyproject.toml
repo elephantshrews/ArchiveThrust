@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ArchiveThrust"
 version = "1.0.0"
+dependencies  = ["matplotlib"]
 
 [project.scripts]
 ArchiveThrust = "ArchiveThrust.main:main"
