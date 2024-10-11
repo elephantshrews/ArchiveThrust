@@ -4,21 +4,26 @@ ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a 
 
 # Installation
 This installation guide is specifically tailored for Fedora; however, it can be used as a reference or example for other Linux distributions or Windows/MacOS with appropriate adjustments. To install the application, the installation of the external C libraries with the code below is required.
+For Fedora:
 ```
-sudo dnf install libcurl-devel gsl-devel blas-devel
+sudo dnf install libcurl-devel gsl-devel blas-devel python3-tkinter
 ```
+For Ubuntu:
+```
+sudo apt install libcurl4-openssl-dev libgsl-dev libatlas-base-dev python3-tk
+```
+
+For Arch:
+
 Second, clone the repository in the repository where you want to store ArchiveThrust.
 ```
 git clone https://github.com/elephantshrews/ArchiveThrust.git
 ```
-Third, go into the folder, build the project, and install it.
+Third, navigate into the folder and install:
 ```
-cd ArchiveThrust
-make
-sudo make install
-make clean
+pipx install
 ```
-
+For that, of course, pipx needs to be installed on the machine, just like Python3.
 
 # Uninstalling
 To uninstall ArchiveThrust, run following commands.
