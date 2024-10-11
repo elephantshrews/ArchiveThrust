@@ -19,5 +19,7 @@ setup(
     version         = "1.0.0",      
     ext_modules     = [ArchiveThrust_extension],     
     packages        = find_packages(),
-    install_requires= ["matplotlib>=3.7.0"]
+    install_requires=[
+            'matplotlib',
+            ]
      )
