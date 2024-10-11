@@ -21,7 +21,7 @@ git clone https://github.com/elephantshrews/ArchiveThrust.git
 ```
 Third, navigate into the folder and install:
 ```
-pipx install
+pipx install .
 ```
 For that, of course, pipx needs to be installed on the machine, just like Python3.
 
