@@ -25,14 +25,5 @@ pipx install .
 ```
 For that, of course, pipx needs to be installed on the machine, just like Python3.
 
-# Uninstalling
-To uninstall ArchiveThrust, run following commands.
-```
-cd /path/to/ArchiveThrust
-sudo make uninstall
-cd ..
-rm -r ArchiveThrust
-```
-
 # Usage
 To use ArchiveThrust, run `ArchiveThrust` from a command prompt after installing the software. The program will ask you for your login credentials from Space-Track.org, which you will need to type manually into the command prompt. Therefore, it is necessary to own an account from Space-Track. Afterwards, it will ask you for a NORAD ID. The software will then return recent satellite manoeuvres.
