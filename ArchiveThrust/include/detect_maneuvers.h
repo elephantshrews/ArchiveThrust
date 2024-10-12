@@ -53,6 +53,7 @@ void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochD
 double _findAvFluct(const double *data, const double *fittedData, int realSizeOfWindow);
 int _selectBestPolynomialDegree(const double *epochDays, const double *orbitParams, int windowSize);
 void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients, int poly_degree);
+void createMod360Degrees(double *orbitalParams, double *ModOrbitParams, int nmemb);
 //void _fitFadingMemoryPolynomial(const double *epochDays, const double *orbitParams, int windowSize, double *coefficients);
 bool isCloseEnough(double epochDay1, double epochDay2, int threshold);
 void classifyManeuver(Maneuver *maneuver);

@@ -15,19 +15,37 @@ int sigmathresholds[] = {7,7, 20,500, 10000,500};
 //Place orbital parameters from a list of TLEs in a tle storage into seperate arrays
 void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities, double *argPerigee, double *raan, double *meanAnomaly) {
     int nmemb = tle_st->nmemb;
-    for (int i = 0; i < nmemb; i++) {
+    double argPerigeeraw[nmemb];
+    double raanraw[nmemb]; 
+    double meanAnomalyraw[nmemb];
+    for (int i = 0; i < nmemb/2; i++) {
         epochYears[i] = tle_st->tles[i].line1.epochYear;
         epochDays[i] = tle_st->tles[i].line1.epochDay;
         meanMotions[i] = tle_st->tles[i].line2.meanMotion;
         inclinations[i] = tle_st->tles[i].line2.inclination;
         eccentricities[i] = tle_st->tles[i].line2.eccentricity;
-        argPerigee[i] = tle_st->tles[i].line2.argPerigee;
-        raan[i] = tle_st->tles[i].line2.raan;
-        meanAnomaly[i] = tle_st->tles[i].line2.meanAnomaly;
+        argPerigeeraw[i] = tle_st->tles[i].line2.argPerigee;
+        raanraw[i] = tle_st->tles[i].line2.raan;
+        meanAnomalyraw[i] = tle_st->tles[i].line2.meanAnomaly;
     }
+    createMod360Degrees(argPerigeeraw, argPerigee, nmemb/2);
+    createMod360Degrees(raanraw, raan, nmemb/2);
+    createMod360Degrees(meanAnomalyraw, meanAnomaly, nmemb/2);
 }
 
-
+void createMod360Degrees(double *orbitalParams, double *ModOrbitParams, int nmemb){
+    int windingNumber = 0;
+    ModOrbitParams[0] = orbitalParams[0];
+    for (int i = 1; i < nmemb; i++){
+        if (orbitalParams[i-1]<20 && orbitalParams[i]>340){
+            windingNumber--;
+        }
+        if (orbitalParams[i-1]>340 && orbitalParams[i]<20){
+            windingNumber++;
+        }
+        ModOrbitParams[i] = orbitalParams[i] + windingNumber*360;
+    }
+}
 
 //Calculate the average fluctuation of a data set with respect to a fitted data set
 double _findAvFluct(const double *data, const double *fittedData, int Windowsize){
@@ -218,9 +236,8 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 
     for (int i = INITIAL_WINDOW_SIZE; i < nmemb/2 - 1; i++) {
         printf("This is the day count!!: %d\n", i);
-        for (int k = 5; k < 6; k++) {  // Loop through each parameter
+        for (int k = 3; k < 4; k++) {  // Loop through each parameter
             double sigmaThreshold = sigmathresholds[k];
-            printf("Threshold: %d\n", sigmathresholds[k]);
             // Dynamically allocate memory for the window and fitted values
             double *windowOrbitParams = (double *)malloc(windowSize[k] * sizeof(double));
             double *epochDaysWindow = (double *)malloc((windowSize[k] + 1) * sizeof(double));
@@ -271,12 +288,10 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 }
 
                 if (k== 0|| k==1 ||k==2) {
-                    printf("This is k 0-2 %d\n",k );
                     AvFluct = _findAvFluct(windowOrbitParams, fittedValues, windowSize[k]);
                 }
                 
                 if (k== 3|| k==4 ||k==5) {
-                    printf("This is k 3-5 %d\n",k );
                     AvFluct = _findAvFluct(NormalizedWindow, fittedValues, windowSize[k]);
                 }
 
@@ -307,9 +322,10 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 deviation = fabs(params[k][i] - fittedValues[oldwindowSize]);
                 deviationNormalized = fabs(params[k][i] - fittedValues[oldwindowSize])/AvFluct;
             }
-            printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i], fittedValues[oldwindowSize]);
-            printf("average fluct %f\n", AvFluct);
-            printf("deviation %f and ormalized deviation: %f epoch day:  %f epoch year: %f\n",deviation, deviationNormalized, epochDays[i], epochYears[i]);
+
+            printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i]/meanValue, fittedValues[oldwindowSize]);
+            //printf("average fluct %f\n", AvFluct);
+            //printf("deviation %f and ormalized deviation: %f epoch day:  %f epoch year: %f\n",deviation, deviationNormalized, epochDays[i], epochYears[i]);
 
             // Detect potential maneuver
             
@@ -382,6 +398,7 @@ void detectManeuvers(const TleStor *tleSt, Maneuver *detectedManeuvers){
 
     int nmemb = tleSt->nmemb;
     
-
+    
     _singleParamDetection(tleSt, nmemb, detectedManeuvers);
+    
 }

@@ -8,7 +8,8 @@ except ImportError:
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta
 
 # Function to create a plot for each dataset
 
@@ -44,13 +45,30 @@ def main():
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
     maneuver_array_type = Maneuver * 3000  # Assuming you want space for 100 maneuvers
     maneuvers = maneuver_array_type()
-    #detect_maneuvers(perm_stor, maneuvers)
+    detect_maneuvers(perm_stor, maneuvers)
     #print("this is the maneuver fluctuation")
     #print(maneuvers[0].fluctuations[0])
     
-    days = [maneuvers[i].startEpochDay for i in range(len(maneuvers))]
-    cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
+    #dates = [(maneuvers[i].startEpochDay,maneuvers[i].EpochYear) for i in range(len(maneuvers))]
+    #cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
 
+    #converted_dates = [datetime(year, 1, 1) + timedelta(days=day-1) for (day, year) in dates]
+
+    # Plotting
+    #plt.figure(figsize=(10, 6))
+    #plt.plot(converted_dates, cls, marker='o', linestyle='-', color='b')
+
+    # Format the date axis
+    #plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%Y'))  # Show day and year
+
+    # Rotate x labels for better readability
+    #plt.gcf().autofmt_xdate()
+
+    # Labels and title
+    #plt.xlabel('Date (Day-Year)')
+    #plt.ylabel('Confidence Level')
+    #plt.title('Confidence Levels over Time')
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]
     A = [1, 2, 3, 4, 5, 6]

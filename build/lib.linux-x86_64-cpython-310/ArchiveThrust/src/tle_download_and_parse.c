@@ -137,7 +137,6 @@ int download(char* norad_id, void* tlestor_init)
 	    tlestor->nmemb = tlenumber; 
 	    tlestor->tles = (TLE *) malloc(tlenumber * sizeof(TLE));
 	    tle_parse(&tletemp, tlestor); 
-        printf("this is the number of TLEs %d\n", tlestor->nmemb);
 
 
         if (tlenumber == 0) {
