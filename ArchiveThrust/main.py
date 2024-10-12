@@ -51,18 +51,25 @@ def main():
     detect_maneuvers(perm_stor, maneuvers)
     #print("this is the maneuver fluctuation")
     #print(maneuvers[0].fluctuations[0])
-    dates_raw = [(int(maneuvers[i].startEpochDay),int(maneuvers[i].epochYear)) for i in range(len(maneuvers))]
-    dates = [ (x,y) for (x,y) in dates_raw if (x,y) !=(0,0) ]
+    dates_raw = [(int(maneuvers[i].startEpochDay),int(maneuvers[i].epochYear)+2000) for i in range(len(maneuvers))]
+    dates = [ (x,y) for (x,y) in dates_raw if (x,y) !=(0,0) and (x,y) != (0,2000) ]
+    print(dates)
+    list_of_zeros = []
     cls  = [maneuvers[i].confidenceLevel for i in range(len(dates))]
+    for i in range(len(dates)):
+        if cls[i] == 0:
+            del cls[i]
+            del dates[i]
+    print(len(dates), len(cls))
     converted_dates = [datetime(year, 1, 1) + timedelta(days=day-1) for (day, year) in dates]
-
+    print(converted_dates)
     # Plotting
     plt.figure(figsize=(10, 6))
     plt.plot(converted_dates, cls, marker='o', linestyle='-', color='b')
 
     # Format the date axis
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%Y'))  # Show day and year
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))  # Show day and year
 
     # Rotate x labels for better readability
     plt.gcf().autofmt_xdate()
@@ -71,6 +78,7 @@ def main():
     plt.xlabel('Date (Day-Year)')
     plt.ylabel('Confidence Level')
     plt.title('Confidence Levels over Time')
+    plt.show()
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]
     A = [1, 2, 3, 4, 5, 6]
