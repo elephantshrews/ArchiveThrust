@@ -43,32 +43,31 @@ def main():
         exit()
     
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
-    maneuver_array_type = Maneuver * 3000  # Assuming you want space for 100 maneuvers
+    maneuver_array_type = Maneuver * 200  # Assuming you want space for 100 maneuvers
     maneuvers = maneuver_array_type()
     detect_maneuvers(perm_stor, maneuvers)
     #print("this is the maneuver fluctuation")
     #print(maneuvers[0].fluctuations[0])
-    
-    #dates = [(maneuvers[i].startEpochDay,maneuvers[i].EpochYear) for i in range(len(maneuvers))]
-    #cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
-
-    #converted_dates = [datetime(year, 1, 1) + timedelta(days=day-1) for (day, year) in dates]
+    dates_raw = [(int(maneuvers[i].startEpochDay),int(maneuvers[i].epochYear)) for i in range(len(maneuvers))]
+    dates = [ (x,y) for (x,y) in dates_raw if (x,y) !=(0,0) ]
+    cls  = [maneuvers[i].confidenceLevel for i in range(len(dates))]
+    converted_dates = [datetime(year, 1, 1) + timedelta(days=day-1) for (day, year) in dates]
 
     # Plotting
-    #plt.figure(figsize=(10, 6))
-    #plt.plot(converted_dates, cls, marker='o', linestyle='-', color='b')
+    plt.figure(figsize=(10, 6))
+    plt.plot(converted_dates, cls, marker='o', linestyle='-', color='b')
 
     # Format the date axis
-    #plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
-    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%Y'))  # Show day and year
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%Y'))  # Show day and year
 
     # Rotate x labels for better readability
-    #plt.gcf().autofmt_xdate()
+    plt.gcf().autofmt_xdate()
 
     # Labels and title
-    #plt.xlabel('Date (Day-Year)')
-    #plt.ylabel('Confidence Level')
-    #plt.title('Confidence Levels over Time')
+    plt.xlabel('Date (Day-Year)')
+    plt.ylabel('Confidence Level')
+    plt.title('Confidence Levels over Time')
     # X and Y values
     x = [1, 2, 3, 4, 5, 6]
     A = [1, 2, 3, 4, 5, 6]
@@ -84,7 +83,7 @@ def main():
     root.title("ArhiveThrust")
 
     # Create plots for A, B, C, and D
-    create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
+    #create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
     #create_individual_plot(root, x, A, "Plot A", 0, 0)
     #create_individual_plot(root, x, B, "Plot B", 0, 1)
     #create_individual_plot(root, x, C, "Plot C", 1, 0)
