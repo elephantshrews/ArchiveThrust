@@ -1,8 +1,3 @@
-# Please enter SPACKETRACK login credentials here!
-username = "m.snoeken@campus.tu-berlin.de"
-password = "UfQx95rK5Bj4haRhiKBP"
-
-
 # 
 #
 #  Archive Thrust - main.py 
@@ -31,11 +26,13 @@ from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import tkinter as tk
-
+import os
 
 
 def main():
    
+    username = os.getenv("ST_USERNAME")
+    password = os.getenv("ST_PASSWORD")
     norad_id = input("Please enter NORAD ID: ") 
     # Login to SPACETRACK
     login(username, password)
@@ -93,3 +90,4 @@ def create_individual_plot(root, x, y, title, row, col):
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
     canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=10)
+
