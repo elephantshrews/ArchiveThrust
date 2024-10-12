@@ -71,7 +71,7 @@ def main():
     
     def on_closing():
         root.destroy()
-
+        exit()
     # Set the protocol for the window close event
     root.protocol("WM_DELETE_WINDOW", on_closing)
 
