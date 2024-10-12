@@ -18,18 +18,6 @@
 
 int login(char* username, char* password)
 {
-    /*
-     * Function description:
-     *
-     * Login into spacetrack.org
-     * and save the cookies
-     * in cookies.txt so that
-     * the function download
-     * can accesse these 
-     * and download
-     * 
-    */
-
         // Construct the key for login
     	char key[KEY_BUFFER_SIZE];
     	snprintf(key, sizeof(key), EMPTY_KEY_FORMAT, username, password);
@@ -79,18 +67,6 @@ int login(char* username, char* password)
 
 int download(char* norad_id, void* tlestor_init)
 {
-    /*
-     * Function description:
-     *
-     * Download the TLES from
-     * spacetrack.org from the satellite
-     * with norad id as user input. It 
-     * stores the TLEs in the heap
-    */
-
-        // Convert void pointer to tle pointer.
-        // void pointer is only used to make it easier
-        // for Python.
         TleStor* tlestor = (TleStor *) tlestor_init;
   
         // Create temporary storage for TLEs
@@ -171,14 +147,6 @@ int download(char* norad_id, void* tlestor_init)
 
 void* create_permanent_storage(void)
 {
-    /*
-     * Function description:
-     *
-     * Initalize storage of TLEs
-     * and return the pointer to this storage
-     * as void pointer. This is done so that it
-     * is easier to deal with in Python. 
-    */
         // Allocate memory on the heap
         TleStor* tlestor_init = malloc(sizeof(TleStor));
         // Check if memory allocation was successful
@@ -212,6 +180,7 @@ static size_t write(void *cont, size_t size, size_t nmemb, void *userp)
 	    return strsize;
 }
 
+// Write callback for login functio
 static size_t write_l(void* cont, size_t size, size_t nmemb, void* userp){
         size_t total_size = size * nmemb;
         strncat(userp, cont, total_size); // Append to userp buffer
