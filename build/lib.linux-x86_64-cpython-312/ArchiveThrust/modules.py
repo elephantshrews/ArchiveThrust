@@ -55,7 +55,7 @@ def download(norad_id, tlestor):
     return lib.download(norad_id.encode('utf-8'), tlestor)
 
 
-### Following classes are needed for the detect_meanueverss
+## Following classes are needed for the detect_meanuever## Following classes are needed for the detect_meanueverss
 class TleLineOne(ctypes.Structure):
     _fields_ = [
         ("lineNumber", ctypes.c_int),
@@ -116,8 +116,7 @@ class Maneuver(ctypes.Structure):
         ("maneuverType", ctypes.c_int * 2),
         ("confidenceLevel", ctypes.c_double),
     ]
-
-# detect maneuvers
+# download
 # Declare the argument types and return types for the C function
 lib.detectManeuvers.argtypes = [ctypes.POINTER(TleStor), ctypes.POINTER(Maneuver)]
 lib.detectManeuvers.restype = None
