@@ -92,6 +92,7 @@ void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double 
     }
     
     value /= windowSize;
+    value /= 0.1;
     *meanValue = value;
     for (int i = 0; i< windowSize; i++) {
         normalizedWindow[i] = windowOrbitalParams[i]/value;
@@ -101,30 +102,24 @@ void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double 
 
 
 void classifyManeuver(Maneuver *maneuver){
-    printf("0\n");
     printf("this is the orbitalpüaram count: %d, %d, %d, %d, %d, %d\n", maneuver->affectedParams[0], maneuver->affectedParams[1],maneuver->affectedParams[2], maneuver->affectedParams[3], maneuver->affectedParams[4], maneuver->affectedParams[5]);
     if ((maneuver->affectedParams[0]) && (maneuver->affectedParams[1] || maneuver->affectedParams[4])) {
-        printf("1\n");
         if (maneuver->fluctuations[0]>2*sigmathresholds[0] && (maneuver->fluctuations[1]>2*sigmathresholds[1] || maneuver->fluctuations[4]>2*sigmathresholds[4])) {
-            printf("2\n");
             maneuver->maneuverType[1] = STATION_KEEPING;
             maneuver->maneuverType[0] = OUT_OF_PLANE;
         }
         else {                      // If one or more of the mutually exclusive params has a small fluctuation, we will discard the ones that have less significance
             if (maneuver->affectedParams[1]) {
-                printf("3\n");
                 if (maneuver->fluctuations[0]>maneuver->fluctuations[1]) {
                     maneuver->affectedParams[1] = false;
                     maneuver->affectedParams[4] = false;
                 }
                 else {
-                    printf("4\n");
                     maneuver->affectedParams[0] = false;
                     }
             }
             else {
                 if (maneuver->fluctuations[0]>maneuver->fluctuations[4]) {
-                    printf("5\n");
                     maneuver->affectedParams[1] = false;
                     maneuver->affectedParams[4] = false;
                 }
@@ -138,13 +133,11 @@ void classifyManeuver(Maneuver *maneuver){
 
     }
     if (maneuver->affectedParams[0] && !maneuver->affectedParams[1] && !maneuver->affectedParams[4]) {
-        printf("6\n");
         maneuver->maneuverType[0] =  IN_PLANE;
         if (maneuver->affectedParams[3]) {
             maneuver->maneuverType[1] = PERIGEE_APOGEE_CHANGE;
         } 
         else if ( maneuver->affectedParams[2]) {
-            printf("7\n");
             maneuver->maneuverType[1] = DRAG_COMPENSATION;
         }
         else{
@@ -152,9 +145,7 @@ void classifyManeuver(Maneuver *maneuver){
         }
     }
     else if (!maneuver->affectedParams[0] && (maneuver->affectedParams[1] || maneuver->affectedParams[4])) {
-        printf("8\n");
         if (!maneuver->affectedParams[2]&& !maneuver->affectedParams[3]){
-            printf("9\n");
             maneuver->maneuverType[0] = OUT_OF_PLANE;
             maneuver->maneuverType[1] = PLANE_CHANGE;
         }
@@ -225,7 +216,8 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
     int maneuverCount = 0;
 
     for (int i = INITIAL_WINDOW_SIZE; i < nmemb - 1; i++) {
-        for (int k = 1; k < 2; k++) {  // Loop through each parameter
+        printf("This is the day count!!: %d\n", i);
+        for (int k = 5; k < 6; k++) {  // Loop through each parameter
             double sigmaThreshold = sigmathresholds[k];
             printf("Threshold: %d\n", sigmathresholds[k]);
             // Dynamically allocate memory for the window and fitted values
@@ -250,8 +242,9 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                     epochDaysWindow[j] += 365 * (epochYearsWindow[j] - epochYearsWindow[0]);
                 }
             }
-            createNormalizedWindow(windowOrbitParams, windowSize[k], NormalizedWindow, &meanValue);
-
+            if (k== 3|| k==4 ||k==5) {
+                createNormalizedWindow(windowOrbitParams, windowSize[k], NormalizedWindow, &meanValue);
+            }
             // Optimize polynomial degree for this parameter
             double AvFluct = 0;
             while (pol_deg[k] <= maxPolyDegree) {
@@ -259,8 +252,13 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 memset(fittedValues, 0, (windowSize[k] + 1) * sizeof(double));
 
                 // Fit polynomial to data
-                _fitFadingMemoryPolynomial(epochDaysWindow, NormalizedWindow, windowSize[k], coefficients, pol_deg[k]);
-
+                
+                if (k== 0|| k==1 ||k==2) {
+                    _fitFadingMemoryPolynomial(epochDaysWindow, windowOrbitParams, windowSize[k], coefficients, pol_deg[k]);
+                }
+                if (k== 3|| k==4 ||k==5) {
+                    _fitFadingMemoryPolynomial(epochDaysWindow, NormalizedWindow, windowSize[k], coefficients, pol_deg[k]);
+                }
                 epochYearsWindow[windowSize[k]] = epochYears[i];
                 epochDaysWindow[windowSize[k]] = epochDays[i] - beginningDay + 366 * (epochYearsWindow[windowSize[k]] - epochYearsWindow[0]);
 
@@ -270,8 +268,16 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                         fittedValues[l] += coefficients[m] * pow(epochDaysWindow[l], m);
                     }
                 }
-                printf("This should not be zero: %f\n", fittedValues[windowSize[k]]);
-                AvFluct = _findAvFluct(NormalizedWindow, fittedValues, windowSize[k]);
+
+                if (k== 0|| k==1 ||k==2) {
+                    printf("This is k 0-2 %d\n",k );
+                    AvFluct = _findAvFluct(windowOrbitParams, fittedValues, windowSize[k]);
+                }
+                
+                if (k== 3|| k==4 ||k==5) {
+                    printf("This is k 3-5 %d\n",k );
+                    AvFluct = _findAvFluct(NormalizedWindow, fittedValues, windowSize[k]);
+                }
 
                 // Stop if fluctuation is low enough or max polynomial degree is reached
                 if (AvFluct < 5.e-4 || pol_deg[k] == maxPolyDegree) {
@@ -279,7 +285,6 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
                 }
                 pol_deg[k]++;
             }
-            printf("This should not be zero 2: %f\n", fittedValues[windowSize[k]]);
             int oldwindowSize = windowSize[k];
             // Refine window size based on the fluctuation for this parameter
             if (AvFluct < 5.e-4 && windowSize[k] < maxWindowSize) {
@@ -287,14 +292,21 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
             } else if (AvFluct > 5.e-4 && windowSize[k] > minWindowSize) {
                 windowSize[k]--;
             }
-            if (AvFluct < 1.e-6) { 
-                AvFluct = 5.e-5;
+            if (AvFluct == 0.0) { 
+                AvFluct = 5.e-9;
             }
-            printf("This should not be zero3: %f\n", fittedValues[windowSize[k]]);
             // Calculate normalized deviation
-            double deviation = fabs(params[k][i]/ meanValue - fittedValues[oldwindowSize]);
-            double deviationNormalized = fabs(params[k][i]/ meanValue - fittedValues[oldwindowSize])/AvFluct;
-            printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i]/ meanValue, fittedValues[oldwindowSize]);
+            double deviation;
+            double deviationNormalized;
+            if (k== 3|| k==4 ||k==5) {
+                deviation = fabs(params[k][i]/ meanValue - fittedValues[oldwindowSize]);
+                deviationNormalized = fabs(params[k][i]/ meanValue - fittedValues[oldwindowSize])/AvFluct;
+            }
+            if (k== 0|| k==1 ||k==2) {
+                deviation = fabs(params[k][i] - fittedValues[oldwindowSize]);
+                deviationNormalized = fabs(params[k][i] - fittedValues[oldwindowSize])/AvFluct;
+            }
+            printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i], fittedValues[oldwindowSize]);
             printf("average fluct %f\n", AvFluct);
             printf("deviation %f and ormalized deviation: %f epoch day:  %f epoch year: %f\n",deviation, deviationNormalized, epochDays[i], epochYears[i]);
 
@@ -368,8 +380,12 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 void detectManeuvers(const TleStor *tleSt, Maneuver *detectedManeuvers){
 
     int nmemb = tleSt->nmemb;
-
-    _singleParamDetection(tleSt, nmemb, detectedManeuvers);
+    
+    for (int i =0 ; i <nmemb; i++ ) {
+        printf("This is the day: %f year of: %d of count: %d\n", tleSt->tles[i].line1.epochDay, tleSt->tles[i].line1.epochYear, i);
+    }
+    
+    //_singleParamDetection(tleSt, nmemb, detectedManeuvers);
     //_singleParamDetection(epochYears, epochDays, inclinations, nmemb);
     //_singleParamDetection(epochYears, epochDays, eccentricities, nmemb);
 }

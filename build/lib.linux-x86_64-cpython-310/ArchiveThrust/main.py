@@ -44,10 +44,9 @@ def main():
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
     maneuver_array_type = Maneuver * 3000  # Assuming you want space for 100 maneuvers
     maneuvers = maneuver_array_type()
-    
-    detect_maneuvers(perm_stor, maneuvers)
-    print("this is the maneuver fluctuation")
-    print(maneuvers[0].fluctuations[0])
+    #detect_maneuvers(perm_stor, maneuvers)
+    #print("this is the maneuver fluctuation")
+    #print(maneuvers[0].fluctuations[0])
     
     days = [maneuvers[i].startEpochDay for i in range(len(maneuvers))]
     cls  = [maneuvers[i].confidenceLevel for i in range(len(maneuvers))]
