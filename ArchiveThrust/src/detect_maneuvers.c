@@ -11,14 +11,14 @@
 
 #include "detect_maneuvers.h"
 
-int sigmathresholds[] = {7,7, 20,500, 10000,500};
+int sigmathresholds[] = {15,15,15,15,15,15};
 //Place orbital parameters from a list of TLEs in a tle storage into seperate arrays
 void _extractOrbParams(const TleStor *tle_st, double *epochYears, double *epochDays, double *meanMotions, double *inclinations, double *eccentricities, double *argPerigee, double *raan, double *meanAnomaly) {
     int nmemb = tle_st->nmemb;
     double argPerigeeraw[nmemb];
     double raanraw[nmemb]; 
     double meanAnomalyraw[nmemb];
-    for (int i = 0; i < nmemb/2; i++) {
+    for (int i = 0; i < nmemb; i++) {
         epochYears[i] = tle_st->tles[i].line1.epochYear;
         epochDays[i] = tle_st->tles[i].line1.epochDay;
         meanMotions[i] = tle_st->tles[i].line2.meanMotion;
@@ -234,9 +234,11 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
     // Pre-allocate space for up to 100 maneuvers
     int maneuverCount = 0;
 
-    for (int i = INITIAL_WINDOW_SIZE; i < nmemb/2 - 1; i++) {
-        printf("This is the day count!!: %d\n", i);
-        for (int k = 3; k < 4; k++) {  // Loop through each parameter
+    for (int i = INITIAL_WINDOW_SIZE; i < nmemb - 1; i++) {
+        if (epochYears[i]<epochYears[i-1]){
+            break;
+        }
+        for (int k = 0; k < 1; k++) {  // Loop through each parameter
             double sigmaThreshold = sigmathresholds[k];
             // Dynamically allocate memory for the window and fitted values
             double *windowOrbitParams = (double *)malloc(windowSize[k] * sizeof(double));
@@ -321,16 +323,17 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
             if (k== 0|| k==1 ||k==2) {
                 deviation = fabs(params[k][i] - fittedValues[oldwindowSize]);
                 deviationNormalized = fabs(params[k][i] - fittedValues[oldwindowSize])/AvFluct;
+
             }
 
-            printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i]/meanValue, fittedValues[oldwindowSize]);
+            //printf("this is the orbital param value %f and the fitted value4: %f\n", params[k][i]/meanValue, fittedValues[oldwindowSize]);
             //printf("average fluct %f\n", AvFluct);
             //printf("deviation %f and ormalized deviation: %f epoch day:  %f epoch year: %f\n",deviation, deviationNormalized, epochDays[i], epochYears[i]);
 
             // Detect potential maneuver
             
             if (deviationNormalized > sigmaThreshold) {
-                //printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
+                printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
                 if (maneuverCount == 0) {
                     Maneuver newManeuver = {epochDays[maneuverCount], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0},-1,-0.1};
                     newManeuver.affectedParams[k] = true;
