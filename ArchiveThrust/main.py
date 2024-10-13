@@ -1,25 +1,37 @@
+# 
+#
+#  Archive Thrust - main.py 
+#
+#  Authors: Michiel Snoeken & Freddy Spaulding
+#  GNU General Public License
+#
+#
+#
+
+
+
+# Import functions from C-library
+# that are converted to Python functions in modules.py
 from .modules import *
+
+# Import used modules
 import tkinter as tk
-from tkinter import ttk
+from   tkinter import ttk
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from   matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.dates as mdates
-from datetime import datetime, timedelta
-from matplotlib.lines import Line2D
+from   datetime import datetime, timedelta
+from   matplotlib.lines import Line2D
 import warnings
+import os
 
-
-# Function to create a plot for each dataset
-def create_individual_plot(root, x, y, title, row, col):
-    fig, ax = plt.subplots(figsize=(10, 6))  # Set a default size that can be adjusted
-    ax.plot(x, y)
-    ax.set_xlabel('Day')
-    ax.set_ylabel('Confidence Level')
-    ax.set_title(title)
 
 def main():
-    username = "m.snoeken@campus.tu-berlin.de"
-    password = "UfQx95rK5Bj4haRhiKBP"
+    # obtain username and password as environment variables
+    username = os.getenv("ST_USERNAME") 
+    password = os.getenv("ST_PASSWORD") 
+
+    # Ask user for NORAD ID
     norad_id = input("Please enter NORAD ID: ")
 
     # Simulated function calls (replace with actual code)
@@ -35,9 +47,20 @@ def main():
     maneuvers = maneuver_array_type()
     detect_maneuvers(perm_stor, maneuvers)
 
+
+
+
+
     # Extracting the dates and maneuver types
-    dates_raw = [(int(maneuvers[i].startEpochDay), int(maneuvers[i].epochYear) + 2000) for i in range(len(maneuvers))]
-    dates = [(x, y) for (x, y) in dates_raw if (x, y) != (0, 0) and (x, y) != (0, 2000)]
+    dates_raw = [
+    (int(maneuvers[i].startEpochDay),
+    int(maneuvers[i].epochYear) + 2000) for i in range(len(maneuvers))
+                ]
+
+
+    dates = [
+    (x, y) for (x, y) in dates_raw if (x, y) != (0, 0) and (x, y) != (0, 2000)
+            ]
     
     # Extract maneuver types and confidence levels
     maneuverTypes = [int(maneuvers[i].maneuverType[1]-2) for i in range(len(dates))]
@@ -74,7 +97,7 @@ def main():
                     alpha=0.7, 
                     edgecolor='white',
                     linewidth=0.5)
-
+Im not sure how to continue
         # Add "I" for IN PLANE and "O" for OUT OF PLANE
         offset = 0.02  # Vertical offset for text
         if maneuverTypePlane[i] == 0:  # IN PLANE
@@ -134,3 +157,11 @@ def main():
 
     # Show the plot
     plt.show()
+
+# Function to create a plot for each dataset
+def create_individual_plot(root, x, y, title, row, col):
+    fig, ax = plt.subplots(figsize=(10, 6))  # Set a default size that can be adjusted
+    ax.plot(x, y)
+    ax.set_xlabel('Day')
+    ax.set_ylabel('Confidence Level')
+    ax.set_title(title)
