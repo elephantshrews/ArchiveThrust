@@ -3,7 +3,7 @@
 ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a command-line application that prompts the user for a satellite identification number (NORAD ID) and their login credentials for Space-Track. The program then returns a list of the most recent maneuvers of the selected satellite. These maneuvers are computed by downloading TLE data archives and applying known algorithms to detect such maneuvers.
 
 # Installation
-This installation guide is specifically tailored for Fedora and Ubuntu; It has not been tested for others systems. However, it can still be used as a reference or example for other Linux distributions or Windows/MacOS with appropriate adjustments, if one desires to do so. To install the application, the installation of the external C/Python libraries with the code below is required.
+This installation guide is specifically tailored for Fedora and Ubuntu; it has not been tested on other systems. However, it can be used as a reference or example for other Linux distributions or Windows/MacOS with appropriate adaptations if you wish. To install the application, you need to install the external C/Python libraries with the code below.
 
 For Fedora:
 ```
@@ -26,9 +26,9 @@ For that, of course, pipx needs to be installed on the machine, just like Python
 # Configure 
 You will need to set the following environment variables in your login file to run ArchiveThrust.
 
-    ST_USERNAME space-track.org username (of the form ST_LOGIN="username")
-    ST_PASSWORD space-track.org password (of the form ST_PASSWORD="password")
+    - ST_USERNAME for the space-track.org username (of the form ST_LOGIN="username")
+    - ST_PASSWORD for the space-track.org password (of the form ST_PASSWORD="password")
 
 
 # Usage
-To use ArchiveThrust, run `ArchiveThrust` from a command prompt after installing the software. The program will ask you for your login credentials from Space-Track.org, which you will need to type manually into the command prompt. Therefore, it is necessary to own an account from Space-Track. Afterwards, it will ask you for a NORAD ID. The software will then return recent satellite manoeuvres.
+To use ArchiveThrust, run `ArchiveThrust` from a command prompt after installing the software. The program will ask you for your for a NORAD ID. The software will then return recent satellite manoeuvres.
