@@ -73,18 +73,26 @@ Description of Maneuver Types:
     # Set the background color of the window to black
     root.configure(bg='black')
 
+
+
+
+    
     # Plot the maneuvers to the left side (column 0)
     plot_maneuvers(root, maneuvers, 0, 0)
 
+
+    # Create a smaller font for the text label
+    small_font = tk.font.Font(family="Helvetica", size=8)  # Set the font size to 8
+
+
     # Create label with white text on a black background, next to the plot
-    label = ttk.Label(root, text=text, foreground="white", background="black", justify=tk.LEFT)
+    label = ttk.Label(root, text=text, foreground="white", background="black", justify=tk.LEFT, font= small_font)
     label.grid(row=0, column=1, padx=20, sticky='nw')
 
 
     def on_closing():
         root.quit()
         root.destroy()
-
 
 
     # Set the protocol for the window close event
@@ -94,10 +102,9 @@ Description of Maneuver Types:
     root.mainloop()
 
 
-
 def plot_maneuvers(root, maneuvers, row, col):
     # Create the figure and axis
-    fig, ax = plt.subplots(figsize=(6, 5))
+    fig, ax = plt.subplots(figsize=(10, 5))
     plt.style.use('dark_background')
 
     # Set the plot background (axes and figure) to black
@@ -166,8 +173,11 @@ def plot_maneuvers(root, maneuvers, row, col):
         Line2D([0], [0], marker='None', color='w', label='In Plane (I)', linestyle='None', markersize=8),
         Line2D([0], [0], marker='None', color='w', label='Out of Plane (O)', linestyle='None', markersize=8)
     ]
+
+    # Move the legend outside the plot
     ax.legend(handles=legend_handles + legend_handles_plane, title='Maneuver Types and Plane', loc='upper left',
-              fontsize=10, title_fontsize=12, facecolor='black', framealpha=0.7, edgecolor='white')
+              fontsize=10, title_fontsize=12, facecolor='black', framealpha=0.7, edgecolor='white',
+              bbox_to_anchor=(1.05, 1), borderaxespad=0.)
 
     # Format the date axis
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
@@ -178,7 +188,17 @@ def plot_maneuvers(root, maneuvers, row, col):
     ax.set_ylabel('Confidence Level', fontsize=14, color='white')
     ax.set_title("Maneuvers", fontsize=16, color='white')
 
+
+
     # Embed the plot into the Tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
+
+    # Adjust the canvas size to fit the figure and legend
     canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=10)
+
+    # Explicitly set the size of the Tkinter canvas
+    canvas.get_tk_widget().config(width=1200, height=600)  
+
+    # Optionally, force the figure to resize properly in the canvas
+    fig.tight_layout(pad=2)  # Ensures the layout fits everything, including legend
