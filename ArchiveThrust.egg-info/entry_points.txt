@@ -1,0 +1,2 @@
+[console_scripts]
+ArchiveThrust = ArchiveThrust.main:main

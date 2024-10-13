@@ -100,8 +100,6 @@ int download(char* norad_id, void* tlestor_init)
 
     	/* Download Data from Space-Track */ 
     	// Formulate GET request for Space-Track 
-        char *start = "2020-01-01";
-
         // Get the current time
         time_t now = time(NULL);
         struct tm *tm_now = localtime(&now);
@@ -110,6 +108,21 @@ int download(char* norad_id, void* tlestor_init)
         // Format the date into the string
         strftime(end, sizeof(end), "%Y-%m-%d", tm_now);
 
+        // Calculate the start date (1 year and 15 days before)
+        struct tm tm_start = *tm_now;  // Create a copy of the current time
+
+        // Subtract 1 year and 15 days
+        tm_start.tm_year -= 1;         // tm_year is the number of years since 1900, so this subtracts 1 year
+        tm_start.tm_mday -= 15;        // Subtract 15 days
+
+        // Normalize the tm_start structure using mktime()
+        // This will adjust the month and day correctly if the subtraction overflows (e.g., going back from January)
+        mktime(&tm_start);
+
+        // Create a string to hold the start date
+        char start[11];
+        // Format the start date into the string (YYYY-MM-DD)
+        strftime(start, sizeof(start), "%Y-%m-%d", &tm_start);
     	
     	static const char *raw_url =	
         "https://www.space-track.org/basicspacedata/query/class/gp_history/NORAD_CAT_ID/%s/orderby/TLE_LINE1%%20ASC/EPOCH/%s--%s/format/tle";
@@ -148,7 +161,6 @@ int download(char* norad_id, void* tlestor_init)
 	    tlestor->nmemb = tlenumber; 
 	    tlestor->tles = (TLE *) malloc(tlenumber * sizeof(TLE));
 	    tle_parse(&tletemp, tlestor); 
-
 
 
         if (tlenumber == 0) {
