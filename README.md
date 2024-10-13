@@ -24,7 +24,7 @@ pipx install .
 ```
 For that, of course, pipx needs to be installed on the machine, just like Python3.
 # Configure 
-You will need to set the following environment variables in your login file to run ArchiveThrust.
+You will need to set the following environment variables in your login file to run ArchiveThrust. Please copy the forms as they appear here and only change the username and password to your real username and password.
 
 - ST_USERNAME for the space-track.org username (of the form ST_LOGIN="username")
 - ST_PASSWORD for the space-track.org password (of the form ST_PASSWORD="password")
