@@ -68,7 +68,7 @@ Description of Maneuver Types:
     # Create Tkinter window
     root = tk.Tk()
     root.title("ArchiveThrust")
-
+    root.minsize(800,600)  # Set the width and height to 800x600 pixels
     # Set the background color of the window to black
     root.configure(bg='black')
 
