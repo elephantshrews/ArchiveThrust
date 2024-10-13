@@ -31,11 +31,6 @@ def main():
     username = os.getenv("ST_USERNAME") 
     password = os.getenv("ST_PASSWORD") 
 
-     # Check if they are None
-    if username is None or password is None:
-        raise ValueError("""Username and password must be set as environment variables. 
-                            If you did, please try restarting the terminal.  """)
-
     # Ask user for NORAD ID
     norad_id = input("Please enter NORAD ID: ")
 
@@ -69,7 +64,7 @@ Description of Maneuver Types:
     # Create Tkinter window
     root = tk.Tk()
     root.title("ArchiveThrust")
-    root.minsize(800,600)  # Set the width and height to 800x600 pixels
+
     # Set the background color of the window to black
     root.configure(bg='black')
 
