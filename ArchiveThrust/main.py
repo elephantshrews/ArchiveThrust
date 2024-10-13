@@ -69,12 +69,11 @@ Description of Maneuver Types:
     # Create Tkinter window
     root = tk.Tk()
     root.title("ArchiveThrust")
-    root.minsize(800,600)  # Set the width and height to 800x600 pixels
     # Set the background color of the window to black
     root.configure(bg='black')
 
 
-
+    #tk.Tk().tk.call('tk', 
 
     
     # Plot the maneuvers to the left side (column 0)
@@ -82,12 +81,11 @@ Description of Maneuver Types:
 
 
     # Create a smaller font for the text label
-    small_font = tk.font.Font(family="Helvetica", size=8)  # Set the font size to 8
-
-
+    small_font = tk.font.Font(family="Helvetica", size=9) 
+    
     # Create label with white text on a black background, next to the plot
     label = ttk.Label(root, text=text, foreground="white", background="black", justify=tk.LEFT, font= small_font)
-    label.grid(row=0, column=1, padx=20, sticky='nw')
+    label.grid(row=0, column=1, padx=10, sticky='nsew')
 
 
     def on_closing():
@@ -104,7 +102,7 @@ Description of Maneuver Types:
 
 def plot_maneuvers(root, maneuvers, row, col):
     # Create the figure and axis
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(8, 5))
     plt.style.use('dark_background')
 
     # Set the plot background (axes and figure) to black
@@ -170,13 +168,13 @@ def plot_maneuvers(root, maneuvers, row, col):
     legend_handles = [Line2D([0], [0], marker=markers[j], color='w', label=labels[j],
                              markerfacecolor=colors[j], markersize=8) for j in range(len(labels))]
     legend_handles_plane = [
-        Line2D([0], [0], marker='None', color='w', label='In Plane (I)', linestyle='None', markersize=8),
-        Line2D([0], [0], marker='None', color='w', label='Out of Plane (O)', linestyle='None', markersize=8)
+        Line2D([0], [0], marker='None', color='w', label='In Plane (I)', linestyle='None', markersize=6),
+        Line2D([0], [0], marker='None', color='w', label='Out of Plane (O)', linestyle='None', markersize=6)
     ]
 
     # Move the legend outside the plot
     ax.legend(handles=legend_handles + legend_handles_plane, title='Maneuver Types and Plane', loc='upper left',
-              fontsize=10, title_fontsize=12, facecolor='black', framealpha=0.7, edgecolor='white',
+              fontsize=8, title_fontsize=8, facecolor='black', framealpha=0.7, edgecolor='white',
               bbox_to_anchor=(1.05, 1), borderaxespad=0.)
 
     # Format the date axis
@@ -195,10 +193,9 @@ def plot_maneuvers(root, maneuvers, row, col):
     canvas.draw()
 
     # Adjust the canvas size to fit the figure and legend
-    canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=10)
+    canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=20)
 
-    # Explicitly set the size of the Tkinter canvas
-    canvas.get_tk_widget().config(width=1200, height=600)  
+    canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
 
-    # Optionally, force the figure to resize properly in the canvas
-    fig.tight_layout(pad=2)  # Ensures the layout fits everything, including legend
+    # Optionally, force the figure to resiz properly in the canvas
+    fig.tight_layout(pad=2) 
