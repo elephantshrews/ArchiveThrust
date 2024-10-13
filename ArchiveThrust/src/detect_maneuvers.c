@@ -120,7 +120,7 @@ void createNormalizedWindow(double *windowOrbitalParams, int windowSize, double 
 
 
 void classifyManeuver(Maneuver *maneuver){
-    printf("this is the orbitalpüaram count: %d, %d, %d, %d, %d, %d\n", maneuver->affectedParams[0], maneuver->affectedParams[1],maneuver->affectedParams[2], maneuver->affectedParams[3], maneuver->affectedParams[4], maneuver->affectedParams[5]);
+    //printf("this is the orbitalpüaram count: %d, %d, %d, %d, %d, %d\n", maneuver->affectedParams[0], maneuver->affectedParams[1],maneuver->affectedParams[2], maneuver->affectedParams[3], maneuver->affectedParams[4], maneuver->affectedParams[5]);
     if ((maneuver->affectedParams[0]) && (maneuver->affectedParams[1] || maneuver->affectedParams[4])) {
         if (maneuver->fluctuations[0]>2*sigmathresholds[0] && (maneuver->fluctuations[1]>2*sigmathresholds[1] || maneuver->fluctuations[4]>2*sigmathresholds[4])) {
             maneuver->confidenceLevel += log(maneuver->fluctuations[0])/20;
@@ -191,6 +191,10 @@ void classifyManeuver(Maneuver *maneuver){
         maneuver->confidenceLevel += 0.2;
         maneuver->maneuverType[0] = OUT_OF_PLANE;
         maneuver->maneuverType[1] = STATION_KEEPING;
+    }
+    //printf("This is the confidence level: %f\n", maneuver->confidenceLevel);
+    if (!maneuver->confidenceLevel<1){
+        maneuver->confidenceLevel = 0.5; 
     }
     
 }
@@ -344,7 +348,7 @@ void _singleParamDetection(const TleStor *tleSt, int nmemb, Maneuver *detectedMa
 
             // Detect potential maneuver
             if (deviationNormalized > sigmaThreshold && deviationNormalized < 100) {
-                printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
+                //printf("Potential maneuver detected for %s in the year %f on day %f\n", paramNames[k], epochYears[i], epochDays[i]);
                 if (maneuverCount == 0) {
                     Maneuver newManeuver = {epochDays[maneuverCount], epochDays[i], epochYears[i], {false, false, false, false, false, false}, {0,0,0,0,0,0},-1,-0.1};
                     newManeuver.affectedParams[k] = true;

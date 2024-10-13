@@ -1,4 +1,5 @@
 LICENSE
+Normal.pdf
 README.md
 pyproject.toml
 setup.py
