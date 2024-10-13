@@ -27,7 +27,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import tkinter as tk
 import os
-
+import sys
 
 def main():
    
@@ -62,7 +62,7 @@ def main():
     
     # Create Tkinter window
     root = tk.Tk()
-    root.title("ArhiveThrust")
+    root.title("ArchiveThrust")
 
     create_individual_plot(root, days, cls, "Plot Maneuvers", 0,0)
 
@@ -70,8 +70,11 @@ def main():
     label.grid(row=2, column=0, columnspan=2, pady=10)
     
     def on_closing():
+        root.quit()
         root.destroy()
-        exit()
+
+
+
     # Set the protocol for the window close event
     root.protocol("WM_DELETE_WINDOW", on_closing)
 
