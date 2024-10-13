@@ -1,34 +1,12 @@
-# 
-#
-#  Archive Thrust - main.py 
-#
-#  Authors: Michiel Snoeken & Freddy Spaulding
-#  GNU General Public License
-#
-#
-#
-
-
-
-
-
-
-
-
-
-# Import functions from the C-library
-# that are converted to Python functions in modules.py
 from .modules import *
 import tkinter as tk
 from tkinter import ttk
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.dates as mdates
 from datetime import datetime, timedelta
 from matplotlib.lines import Line2D
 import warnings
-warnings.filterwarnings("ignore", category=UserWarning)
-
 
 
 # Function to create a plot for each dataset
@@ -46,9 +24,6 @@ def main():
 
     # Simulated function calls (replace with actual code)
     login(username, password)
-
-
-    # Create storage for TLEs
     perm_stor_void = create_permanent_storage()
     download_value = download(norad_id, perm_stor_void)
 

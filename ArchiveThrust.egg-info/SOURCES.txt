@@ -1,5 +1,4 @@
 LICENSE
-Normal.pdf
 README.md
 pyproject.toml
 setup.py
@@ -10,6 +9,7 @@ ArchiveThrust.egg-info/PKG-INFO
 ArchiveThrust.egg-info/SOURCES.txt
 ArchiveThrust.egg-info/dependency_links.txt
 ArchiveThrust.egg-info/entry_points.txt
+ArchiveThrust.egg-info/requires.txt
 ArchiveThrust.egg-info/top_level.txt
 ArchiveThrust/__pycache__/__init__.cpython-312.pyc
 ArchiveThrust/__pycache__/main.cpython-312.pyc
