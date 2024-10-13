@@ -21,6 +21,7 @@
 from .modules import *
 import tkinter as tk
 from tkinter import ttk
+import matplotlib as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.dates as mdates
 from datetime import datetime, timedelta
