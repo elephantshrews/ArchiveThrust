@@ -48,6 +48,7 @@ def main():
         exit()
 
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
+    
     maneuver_array_type = Maneuver * 200
     maneuvers = maneuver_array_type()
     detect_maneuvers(perm_stor, maneuvers)
@@ -96,7 +97,7 @@ Description of Maneuver Types:
 
 def plot_maneuvers(root, maneuvers, row, col):
     # Create the figure and axis
-    fig, ax = plt.subplots(figsize=(13, 10))
+    fig, ax = plt.subplots(figsize=(6, 5))
     plt.style.use('dark_background')
 
     # Set the plot background (axes and figure) to black
@@ -156,9 +157,7 @@ def plot_maneuvers(root, maneuvers, row, col):
         else:  # OUT OF PLANE
             ax.text(converted_dates[i], cls[i] + offset, 'O', color='white', fontsize=10, ha='center', va='bottom')
 
-    # Set y-axis limit dynamically
-    max_confidence = max(cls) + 0.7
-    ax.set_ylim(0, max_confidence)
+    ax.set_ylim(0, 1)
 
     # Create custom legends for maneuver types and plane types
     legend_handles = [Line2D([0], [0], marker=markers[j], color='w', label=labels[j],
@@ -171,9 +170,7 @@ def plot_maneuvers(root, maneuvers, row, col):
               fontsize=10, title_fontsize=12, facecolor='black', framealpha=0.7, edgecolor='white')
 
     # Format the date axis
-    ax.xaxis.set_major_locator(mdates.DayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
-    ax.set_xticks(converted_dates)
     plt.gcf().autofmt_xdate()
 
     # Add labels and title
