@@ -48,6 +48,7 @@ def main():
         exit()
 
     perm_stor = ctypes.cast(perm_stor_void, ctypes.POINTER(TleStor))
+    
     maneuver_array_type = Maneuver * 200
     maneuvers = maneuver_array_type()
     detect_maneuvers(perm_stor, maneuvers)
