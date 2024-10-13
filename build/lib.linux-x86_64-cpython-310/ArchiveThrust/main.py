@@ -31,6 +31,11 @@ def main():
     username = os.getenv("ST_USERNAME") 
     password = os.getenv("ST_PASSWORD") 
 
+     # Check if they are None
+    if username is None or password is None:
+        raise ValueError("""Username and password must be set as environment variables. 
+                            If you did, please try restarting the terminal.  """)
+
     # Ask user for NORAD ID
     norad_id = input("Please enter NORAD ID: ")
 
@@ -64,7 +69,7 @@ Description of Maneuver Types:
     # Create Tkinter window
     root = tk.Tk()
     root.title("ArchiveThrust")
-
+    root.minsize(800,600)  # Set the width and height to 800x600 pixels
     # Set the background color of the window to black
     root.configure(bg='black')
 
@@ -92,7 +97,7 @@ Description of Maneuver Types:
 
 def plot_maneuvers(root, maneuvers, row, col):
     # Create the figure and axis
-    fig, ax = plt.subplots(figsize=(13, 10))
+    fig, ax = plt.subplots(figsize=(6, 5))
     plt.style.use('dark_background')
 
     # Set the plot background (axes and figure) to black
@@ -152,8 +157,6 @@ def plot_maneuvers(root, maneuvers, row, col):
         else:  # OUT OF PLANE
             ax.text(converted_dates[i], cls[i] + offset, 'O', color='white', fontsize=10, ha='center', va='bottom')
 
-    # Set y-axis limit dynamically
-    max_confidence = max(cls) + 0.7
     ax.set_ylim(0, 1)
 
     # Create custom legends for maneuver types and plane types

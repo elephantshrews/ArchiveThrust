@@ -97,7 +97,7 @@ Description of Maneuver Types:
 
 def plot_maneuvers(root, maneuvers, row, col):
     # Create the figure and axis
-    fig, ax = plt.subplots(figsize=(13, 10))
+    fig, ax = plt.subplots(figsize=(6, 5))
     plt.style.use('dark_background')
 
     # Set the plot background (axes and figure) to black
