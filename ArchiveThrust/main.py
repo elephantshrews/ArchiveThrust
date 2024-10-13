@@ -157,8 +157,6 @@ def plot_maneuvers(root, maneuvers, row, col):
         else:  # OUT OF PLANE
             ax.text(converted_dates[i], cls[i] + offset, 'O', color='white', fontsize=10, ha='center', va='bottom')
 
-    # Set y-axis limit dynamically
-    max_confidence = max(cls) + 0.7
     ax.set_ylim(0, 1)
 
     # Create custom legends for maneuver types and plane types
