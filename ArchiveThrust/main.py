@@ -197,6 +197,5 @@ def plot_maneuvers(root, maneuvers, row, col):
 
     canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
 
-    # Explicitly set the size of the Tkinter canvas
     # Optionally, force the figure to resiz properly in the canvas
     fig.tight_layout(pad=2) 
