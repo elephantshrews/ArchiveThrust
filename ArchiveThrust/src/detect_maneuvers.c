@@ -193,8 +193,11 @@ void classifyManeuver(Maneuver *maneuver){
         maneuver->maneuverType[1] = STATION_KEEPING;
     }
     //printf("This is the confidence level: %f\n", maneuver->confidenceLevel);
-    if (!maneuver->confidenceLevel<1){
+    if (maneuver->confidenceLevel>1|| maneuver->confidenceLevel<0){
         maneuver->confidenceLevel = 0.5; 
+    }
+    else {
+        maneuver->confidenceLevel = maneuver->confidenceLevel;
     }
     
 }

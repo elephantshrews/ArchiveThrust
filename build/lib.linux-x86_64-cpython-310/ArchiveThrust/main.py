@@ -1,33 +1,23 @@
 from .modules import *
-
-try:
-    import tkinter as tk
-except ImportError:
-    raise ImportError("Tkinter is required to run this application. Please install it using your system package manager.")
-
+import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.dates as mdates
 from datetime import datetime, timedelta
 from matplotlib.lines import Line2D
-import numpy as np
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore", category=UserWarning)
+
+
+
 # Function to create a plot for each dataset
 def create_individual_plot(root, x, y, title, row, col):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 6))  # Set a default size that can be adjusted
     ax.plot(x, y)
     ax.set_xlabel('Day')
     ax.set_ylabel('Confidence Level')
-    ax.set_title("Maneuvers")
-
-    # Embed plot into the Tkinter window
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.draw()
-    canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=10)
-
-# Main function to set up the Tkinter window
+    ax.set_title(title)
 
 def main():
     username = "m.snoeken@campus.tu-berlin.de"
@@ -65,7 +55,6 @@ def main():
 
     # Convert dates to datetime
     converted_dates = [datetime(year, 1, 1) + timedelta(days=day - 1) for (day, year) in dates]
-    cls = np.array(cls, dtype=np.float64)
 
     # Define colors and markers for a galactic feel
     colors = ['#8A2BE2', '#7FFF00', '#FF6347', '#00BFFF', '#FF69B4', '#FFD700']
@@ -75,7 +64,7 @@ def main():
               'PERIGEE/APOGEE CHANGE', 'PHASING', 'DRAG COMPENSATION']
 
     # Create figure with a dark background
-    plt.figure(figsize=(10, 8), facecolor='black')
+    plt.figure(figsize=(13, 10), facecolor='black')
     plt.style.use('dark_background')
 
     # Plot each maneuver with the corresponding color, marker, and add "O" or "I" annotation
@@ -96,7 +85,7 @@ def main():
             plt.text(converted_dates[i], cls[i] + offset, 'O', color='white', fontsize=10, ha='center', va='bottom')
 
     # Determine the maximum value to set the y-axis limit dynamically
-    max_confidence = cls.max() + 0.1  # Add a little extra space above the highest point
+    max_confidence = max(cls) + 0.7  # Add a little extra space above the highest point
 
     # Create custom legend handles for maneuver types
     legend_handles = [Line2D([0], [0], marker=markers[j], color='w', label=labels[j], 
@@ -113,9 +102,12 @@ def main():
                title='Maneuver Types and Plane', loc='upper left', fontsize=10, 
                title_fontsize=12, facecolor='black', framealpha=0.7, edgecolor='white')
 
-    # Format the date axis
-    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    # Format the date axis to only show ticks for the data points
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator())
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))  
+
+    # Set x-ticks to only the dates corresponding to the data points
+    plt.gca().set_xticks(converted_dates)
 
     # Rotate x labels for better readability
     plt.gcf().autofmt_xdate()
@@ -139,7 +131,7 @@ def main():
     )
 
     # Use figtext to create a text box above the plot
-    plt.figtext(0.5, 1.05, description_text, wrap=True, horizontalalignment='center', 
+    plt.figtext(0.6, 0.6, description_text, wrap=True, horizontalalignment='center', 
                 fontsize=10, color='white', bbox=dict(facecolor='black', alpha=0.8))
 
     # Show the plot
