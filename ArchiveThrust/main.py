@@ -81,7 +81,7 @@ Description of Maneuver Types:
 
 
     # Create a smaller font for the text label
-    small_font = tk.font.Font(family="Helvetica", size=9) 
+    small_font = tk.font.Font(family="Helvetica", size=7) 
     
     # Create label with white text on a black background, next to the plot
     label = ttk.Label(root, text=text, foreground="white", background="black", justify=tk.LEFT, font= small_font)
@@ -195,7 +195,7 @@ def plot_maneuvers(root, maneuvers, row, col):
     # Adjust the canvas size to fit the figure and legend
     canvas.get_tk_widget().grid(row=row, column=col, padx=10, pady=20)
 
-    canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
+    canvas.get_tk_widget().grid(row=0, column=0, sticky='w')
 
     # Optionally, force the figure to resiz properly in the canvas
     fig.tight_layout(pad=2) 
