@@ -31,6 +31,11 @@ def main():
     username = os.getenv("ST_USERNAME") 
     password = os.getenv("ST_PASSWORD") 
 
+     # Check if they are None
+    if username is None or password is None:
+        raise ValueError("""Username and password must be set as environment variables. 
+                            If you did, please try restarting the terminal.  """)
+
     # Ask user for NORAD ID
     norad_id = input("Please enter NORAD ID: ")
 
