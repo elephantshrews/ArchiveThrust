@@ -1,6 +1,6 @@
 # ArchiveThrust
 
-ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a command-line application that prompts the user for a satellite identification number (NORAD ID) and their login credentials for Space-Track. The program then returns a list of the most recent maneuvers of the selected satellite. These maneuvers are computed by downloading TLE data archives and applying known algorithms to detect such maneuvers.
+ArchiveThrust allows a user to obtain a maneuver history of satellites. It is a command-line application that prompts the user for a satellite identification number (NORAD ID). The program then returns a plot of the maneuvers of the selected satellite from the previous year. These maneuvers are computed by downloading TLE data archives and applying known algorithms to detect such maneuvers.
 
 # Installation
 This installation guide is specifically tailored for Fedora and Ubuntu; it has not been tested on other systems. However, it can be used as a reference or example for other Linux distributions or Windows/MacOS with appropriate adaptations if you wish. To install the application, you need to install the external C/Python libraries with the code below.
